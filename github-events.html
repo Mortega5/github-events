@@ -29,14 +29,14 @@ Element providing solution to no problem in particular.
 	<paper-shadow z=2>
 		<core-icon src="foto.png" style="width: 100px;height: 50px;display:inline-block;float:left"></core-icon>
 		<div id ="cabecera">
-			<p style="text-align:center">Ultimos eventos</p>
+			<p style="text-align:center">Últimos eventos</p>
 		</div>
 		<template if="{{show}}">
 			<ul class="box" style="border-bottom: 5px solid #d0d0d0;cursor:wait;text-align:center">
 				<p>Loading...</p>
 			</ul>
 		</template>
-		<div style="overflow-y: auto;max-height: 400px">
+		<div style="overflow-y: scroll;max-height: 400px" id="scrollControl">
 			<template id="contenido" is="auto-binding" repeat="{{events}}">
 				<ul class="box">
 					<div style="text-align: center">
@@ -49,6 +49,11 @@ Element providing solution to no problem in particular.
 				<p>{{payload.commits[0].message}}</p>
 				</ul>
 			</template>
+		<template if={{!show}}>
+			<ul class="box" style="text-align:center;cursor: pointer;font-size: 16px;">
+				<span on-click={{load}}>Cargar Más</span>
+			</ul>
+		</template>
 		</div>
 	</paper-shadow>
 </template>
@@ -58,22 +63,36 @@ Element providing solution to no problem in particular.
 		username:'',
 		token:'',
 		events:'',
+		maxPage:'',
 		show:true,
 		page:'1',
 		ready: function () {
 			if (this.token != '') {
-				console.log(this.token);
-				this.$.request.headers = '{"Authoritation":"{{token}}"}'
+				this.$.request.headers = '{"Authorization":"token '+this.token+'"}';
 			}
 			this.$.request.go();
+			var scroll = this.$.scrollControl;
+			var element = this;
+			scroll.onscroll = function(){
+				if (((scroll.scrollTop+scroll.clientHeight)*100/scroll.scrollHeight)>85){
+						element.load();
+				}
+			};
 		},
+
 		response: function(event,detail,sender){
 			this.events = sender.response;
 			var t = this.$.contenido;
-			t.events = this.events;
+			if (t.events == undefined) 
+				t.events = this.events;
+			else
+				t.events = 	t.events.concat(this.events);
 			this.show = false;
+			this.page++;
 		},
-
+		load: function(){
+			this.$.request.go();	
+		},
 	});
 </script>
 </polymer-element>
