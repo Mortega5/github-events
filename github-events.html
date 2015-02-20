@@ -63,7 +63,7 @@ Element providing solution to no problem in particular.
 		username:'',
 		token:'',
 		events:'',
-		maxPage:'',
+		lastPage:'',
 		show:true,
 		page:'1',
 		ready: function () {
@@ -73,22 +73,42 @@ Element providing solution to no problem in particular.
 			this.$.request.go();
 			var scroll = this.$.scrollControl;
 			var element = this;
+			var t = this.$.contenido;
+			t.model = {events: []}
 			scroll.onscroll = function(){
 				if (((scroll.scrollTop+scroll.clientHeight)*100/scroll.scrollHeight)>85){
-						element.load();
+					element.load();
 				}
 			};
 		},
 
 		response: function(event,detail,sender){
 			this.events = sender.response;
+			if (this.lastPage == '') {
+				var headers = detail.xhr.getAllResponseHeaders();
+				headers = headers.split(",");
+					var head = headers[headers.length-1];
+
+				var patron = 'page'+'=([^&]*)';
+				var exp = new RegExp(patron);
+				console.log(exp.exec(head));
+				this.lastPage = parseInt(exp.exec(head)[1]);
+			}
 			var t = this.$.contenido;
+
 			if (t.events == undefined) 
 				t.events = this.events;
 			else
 				t.events = 	t.events.concat(this.events);
 			this.show = false;
-			this.page++;
+			console.log(this.lastPage);
+
+			if (this.page != this.lastPage) {
+				this.page++;
+			} else {
+				this.$.scrollControl.onscroll= undefined;
+			}
+
 		},
 		load: function(){
 			this.$.request.go();	
