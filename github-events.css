@@ -1,5 +1,7 @@
 :host{
-	display: inline-block;	
+	display: inline-block;
+	font-family: 'Roboto';
+	font-size: 5px;
 }
 .box {
 	border: 5px solid #bbb;
@@ -7,9 +9,9 @@
 	border-left: 5px solid #d0d0d0;
 	max-width: 400px;
 	min-width: 350px;
-	padding:10px 5px;
+	padding:15px 5px;
 	margin:0;
-	font-size: 14px;
+	font-size: 12.5px;
 	background: #f2f5f6; /* Old browsers */
 	background: -moz-linear-gradient(-45deg,  #f2f5f6 0%, #e3eaed 51%, #c8d7dc 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f2f5f6), color-stop(51%,#e3eaed), color-stop(100%,#c8d7dc)); /* Chrome,Safari4+ */
@@ -69,5 +71,16 @@ core-icon > div {
 	box-shadow: 3px 3px 5px #888;
 	border: 1px inset #2a2a2a;
 }
-#contenido {
+.name {
+	font-size: 15px;
+	font-weight: bold;
+}
+a {
+	text-decoration: none;
+	color: #160789;
+}
+a:visited {
+}
+a:hover {
+	text-decoration: underline;
 }

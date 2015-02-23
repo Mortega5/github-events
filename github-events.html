@@ -40,23 +40,24 @@ Element providing solution to no problem in particular.
 			<template id="contenido" is="auto-binding" repeat="{{events}}">
 				<ul class="box">
 					<div style="text-align: center">
-						<core-icon  src="{{actor.avatar_url}}" class="imgEvent">
+						<core-icon  src="{{actor.avatar_url}}" class="imgEvent" alt="hola">
 						</core-icon>
-						<span class="name" >{{actor.login}}</span>
+						<a href="https://github.com/{{actor.login}}" style="color: black"><span class="name" >{{actor.login}}</span></a>
 					</div>
 					</br>
-				<p>{{type}} <a href="https://github.com/{{repo.name}}"><span style="font-style: italic">{{repo.name}}</span></a></p>
-				<p>{{info}}</p>
-				<p>{{ date }}</p>
-				</ul>
-			</template>
-		<template if="{{ lastPage != page && !show}}">
-			<ul class="box" style="text-align:center;cursor: pointer;font-size: 16px;"  on-click={{load}}>
-				<span>Cargar Más</span>
+				</br>
+			<p>{{type}} <a target="_blank"href="https://github.com/{{repo.name}}"><span style="font-style: italic">{{repo.name}}</span></a></p>
+			<a href="https://github.com/{{repo.name}}/commits/{{payload.commits[0].sha}}" target="_blank"><p style="font-style: italic">{{info}}</p></a>
+			<p style="font-size:11px;text-align:right">{{ date }}</p>
 			</ul>
 		</template>
-		</div>
-	</paper-shadow>
+	<template if="{{ lastPage != page && !show}}">
+		<ul class="box" style="text-align:center;cursor: pointer;font-size: 16px"  on-click={{load}}>
+			<span style="font-size: 12px">Mostrar más eventos</span>
+		</ul>
+	</template>
+	</div>
+</paper-shadow>
 </template>
 <script>
 	Polymer({
@@ -104,8 +105,8 @@ Element providing solution to no problem in particular.
 			for (i=0;i<list.length;i++){
 				switch(list[i].type) {
 					case "PushEvent":
-						list[i].type = "Realizó un push sobre ";
-						list[i].info = list[i].payload.commits[0].message+"\n";
+						list[i].type = "Realizó un push sobre \b";
+						list[i].info = list[i].payload.commits[0].message;
 						break;
 					case "WatchEvent":
 						list[i].type = "Empezó a seguir el repositorio "
@@ -122,6 +123,21 @@ Element providing solution to no problem in particular.
 						break;
 					case "ReleaseEvent":
 						break;
+					case "CommitCommentEvent":
+						break;
+					case "DelateEvent":
+						break;
+					case "GollumEvent":
+						break;
+					case "IssueCommentEvent":
+						break;
+					case "PublicEvent":
+						break;
+					case "PullRequestReviewCommentEvent":
+						break;
+
+
+
 
 				};
 				var date = new Date(list[i].created_at);
