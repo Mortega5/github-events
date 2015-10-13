@@ -8,18 +8,7 @@
     <link rel="import" href="github-events.html">
   </head>
   <body unresolved>
-    <template is="dom-bind" id="Test">
-      <github-events username="Mortega5" mostrar=30 language="language"></github-events></br>
-      <button onclick="cambiarValor('es')">Español</button>
-      <button onclick="cambiarValor('en')">Ingle</button>
-    </template>
+      <github-events username="Mortega5" mostrar=30></github-events></br>
 
-    <script>
-      Test.language = "es";
-      cambiarValor = function(idioma) {
-        console.log(idioma);
-        Test.language = idioma; 
-      }
-    </script>
   </body>
 </html>
