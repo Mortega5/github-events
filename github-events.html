@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="/bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -138,44 +139,48 @@ Element providing solution to no problem in particular.
                >
     </iron-ajax>
 
+
+
     <iron-icon src="foto.png" style="width: 100px;height: 50px;display:inline-block;float:left"></iron-icon>
     <paper-icon-button class="boton_refrescar" style="display:inline-block; float: right; padding-top: 12px" title="{{language_data.refresh}}" icon="refresh" on-click={{refresh}}></paper-icon-button>
     <div id ="cabecera">
       <p style="padding-left: 170px">{{language_data.title}}</p>
     </div>
 
-    <!--
-<template if="{{show}}">
-<ul class="box" style="border-bottom: 5px solid rgba(24, 41, 49, 0.67);cursor:wait;text-align:center">
-<p>{{language_data.loading}}</p>
-</ul>
-</template>
--->
 
-
-    <!--<div style="overflow-y: scroll;max-height: 400px" id="scrollControl">-->
-    <!-- Cambiado la manera del repeat -->
-    <template id="contenido" is="auto-binding" is="dom-repeat" items="events">
+    <template if="{{show}}">
       <ul class="box">
-        <div style="text-align: center">
-          <iron-icon  src="{{item.actor.avatar_url}}" class="imgEvent" alt="hola">
-          </iron-icon>
-          <a href="https://github.com/{{item.actor.login}}" style="color: black"><span class="name" >{{item.actor.login}}</span></a>
-        </div>
+        <p>{{language_data.loading}}</p>
+      </ul>
+    </template>
+
+
+
+    <div style="overflow-y: scroll;max-height: 400px" id="scrollControl">
+      <!-- Cambiado la manera del repeat -->
+      <template id="contenido" is="dom-repeat" items="{{events}}">
+        <ul class="box">
+          <div style="text-align: center">
+            <iron-icon  src="{{item.actor.avatar_url}}" class="imgEvent" alt="hola">
+            </iron-icon>
+            <a href="https://github.com/{{item.actor.login}}" style="color: black"><span class="name" >{{item.actor.login}}</span></a>
+          </div>
+          </br>
         </br>
-      </br>
-    <p>{{item.operation}} <a target="_blank"href="https://github.com/{{item.repo.name}}"><span style="font-style: italic">{{item.repo.name}}</span></a></p>
-    <a href="https://github.com/{{item.repo.name}}/commits/{{item.payload.commits[0].sha}}" target="_blank"><p style="font-style: italic">{{item.info}}</p></a>
-    <p style="font-size:11px;text-align:right">{{item.date}}</p>
+      <p>{{item.operation}} <a target="_blank" href="https://github.com/{{item.repo.name}}"><span style="font-style: italic">{{item.repo.name}}</span></a></p>
+      <a href="https://github.com/{{item.repo.name}}/commits/{{item.payload.commits[0].sha}}" target="_blank"><p style="font-style: italic">{{item.info}}</p></a>
+      <p style="font-size:11px;text-align:right">{{item.date}}</p>
+      </ul>
+  </template>
+
+  <template is="dom-if" if="[[_showLoadMore(lastPage, page, show)]]">
+    <ul class="box" style="text-align:center;cursor: pointer;font-size: 16px"  on-click="load">
+      <span style="font-size: 12px">{{language_data.load_more}}</span>
     </ul>
   </template>
 
-<template if="{{ lastPage != page && !show}}">
-  <ul class="box" style="text-align:center;cursor: pointer;font-size: 16px"  on-click={{load}}>
-    <span style="font-size: 12px">{{language_data.load_more}}</span>
-  </ul>
-</template>
-<!--</div>-->
+
+  </div>
 
 </template>
 
@@ -186,6 +191,10 @@ Element providing solution to no problem in particular.
 
     is: "github-events",
     properties: {
+      lastPage: {
+        type: Number,
+        value: 0
+      },
       per_page: {
         type: Number,
         value:15,
@@ -212,8 +221,7 @@ Element providing solution to no problem in particular.
         type: String,
         value: 'es',
         notify: true,
-        reflectToAttribute: true,
-        observer: '_languageChanged'
+        reflectToAttribute: true
       },
       language_url: {
         type: String,
@@ -227,10 +235,7 @@ Element providing solution to no problem in particular.
         type: String,
         computed: '_processEventParams(page, per_page)'
       },
-      events: {
-        type: Object,
-        observer: 'eventChanged'
-      }
+      events: Object
     },
 
     attached : function() {
@@ -249,7 +254,7 @@ Element providing solution to no problem in particular.
     },
     _response: function(event,detail){
       // Github events
-      this.events = this.changeEvent(detail.response);
+      this.events = this.events != undefined?  this.events.concat(this.changeEvent(detail.response)) : this.changeEvent(detail.response);
       // Check lastPage
       if (this.lastPage == '') {
         var headers = detail.xhr.getAllResponseHeaders();
@@ -260,7 +265,6 @@ Element providing solution to no problem in particular.
         this.lastPage = parseInt(exp.exec(head)[1]);
       }
       var t = this.$.contenido;
-      t.events == undefined ? t.events = this.events:	t.events = 	t.events.concat(this.events);
 
       this.show = false;
       // If not lastPage, next request is the next page
@@ -357,8 +361,8 @@ Element providing solution to no problem in particular.
     _processEventParams: function(page, per_page) {
       return {"page": page,"per_page": per_page}
     },
-    eventChanged: function(newValue, oldValue) {
-      console.log(newValue); 
+    _showLoadMore: function(lastPage, page, show){
+      return lastPage > page && !show;
     }
   });
 </script>
