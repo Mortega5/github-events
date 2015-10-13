@@ -16,11 +16,9 @@ limitations under the License.
 -->
 
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../core-ajax/core-ajax.html">
-<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-<link rel="import" href="../paper-shadow/paper-shadow.html">
-<link rel="import" href="../core-icon/core-icon.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -34,79 +32,215 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://Mortega5.github.io/github-events
 -->
-<polymer-element name="github-events" attributes="per_page username token language">
-  <template>
-    <link rel="stylesheet" href="github-events.css">
-    <core-ajax
+<dom-module id="github-events">
+
+  <style is="custom-style">
+    :host{
+      display: inline-block;
+      font-family: 'Roboto';
+      font-size: 5px;
+    }
+    .box {
+      border: 5px solid #AEAEAE;
+      border-top: none;
+      width: 400px;
+      padding:15px 5px;
+      margin:0;
+      font-size: 12.5px;
+      background: #f2f5f6; /* Old browsers */
+      background: -moz-linear-gradient(-45deg,  #f2f5f6 0%, #e3eaed 51%, #c8d7dc 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f2f5f6), color-stop(51%,#e3eaed), color-stop(100%,#c8d7dc)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(-45deg,  #f2f5f6 0%,#e3eaed 51%,#c8d7dc 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(-45deg,  #f2f5f6 0%,#e3eaed 51%,#c8d7dc 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(-45deg,  #f2f5f6 0%,#e3eaed 51%,#c8d7dc 100%); /* IE10+ */
+      background: linear-gradient(135deg,  #f2f5f6 0%,#e3eaed 51%,#c8d7dc 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    }
+
+    .box:last-child {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border: 5px solid #AEAEAE;
+      border-top: none;
+    }
+    #cabecera {
+      background: #dbdbdb; /* Old browsers */
+      background: -moz-radial-gradient(center, ellipse cover,  #dbdbdb 0%, #a8a8a8 100%); /* FF3.6+ */
+      background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#dbdbdb), color-stop(100%,#a8a8a8)); /* Chrome,Safari4+ */
+      background: -webkit-radial-gradient(center, ellipse cover,  #dbdbdb 0%,#a8a8a8 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-radial-gradient(center, ellipse cover,  #dbdbdb 0%,#a8a8a8 100%); /* Opera 12+ */
+      background: -ms-radial-gradient(center, ellipse cover,  #dbdbdb 0%,#a8a8a8 100%); /* IE10+ */
+      background: radial-gradient(ellipse at center,  #dbdbdb 0%,#a8a8a8 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdbdb', endColorstr='#a8a8a8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      color:black;
+      font-family: 'Helvetica',sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      padding: 3px 0px;
+    }
+    paper-shadow {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+    core-icon > div {
+      background-repeat: no-repeat;
+      border:none;
+    }
+
+    .imgEvent {
+      float: left;
+      width:40px;
+      height:40px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .imgEvent > div {
+      border-radius: 100%;	
+      box-shadow: 3px 3px 5px #888;
+      border: 1px inset rgba(24, 41, 49, 0.67);
+    }
+    .name {
+      font-size: 15px;
+      font-weight: bold;
+    }
+    a {
+      text-decoration: none;
+      color: #160789;
+    }
+    a:visited {
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <template id="template"> 
+    <iron-ajax
                id="request"
                method="GET"
                url="https://api.github.com/users/{{username}}/received_events"
                params='{"page":"{{page}}","per_page":"{{per_page}}"}'
                handleAs="json"
-               on-core-response="{{response}}"
+               on-response="_response"
                >
-    </core-ajax>
+    </iron-ajax>
 
-    <core-ajax
+    <iron-ajax
                id="requestLanguage"
-               url='language/{{idioma}}'
+               url="language/es_es.json"
                method="GET"
                handleAs='json'
-               on-core-response="{{language_response}}"
+               on-response="_language_response"
                >
-    </core-ajax>
+    </iron-ajax>
 
-    <paper-shadow z=2>
-      <core-icon src="foto.png" style="width: 100px;height: 50px;display:inline-block;float:left"></core-icon>
-      <core-icon-button class="boton_refrescar" style="display:inline-block; float: right; padding-top: 12px" title="{{language_data.refresh}}" icon="refresh" on-click={{refresh}}></core-icon-button>
-      <div id ="cabecera">
-        <p style="padding-left: 170px">{{language_data.title}}</p>
-      </div>
+    <iron-icon src="foto.png" style="width: 100px;height: 50px;display:inline-block;float:left"></iron-icon>
+    <paper-icon-button class="boton_refrescar" style="display:inline-block; float: right; padding-top: 12px" title="{{language_data.refresh}}" icon="refresh" on-click={{refresh}}></paper-icon-button>
+    <div id ="cabecera">
+      <p style="padding-left: 170px">{{language_data.title}}</p>
+    </div>
 
-      <template if="{{show}}">
-        <ul class="box" style="border-bottom: 5px solid rgba(24, 41, 49, 0.67);cursor:wait;text-align:center">
-          <p>{{language_data.loading}}</p>
-        </ul>
-      </template>
-
-      <div style="overflow-y: scroll;max-height: 400px" id="scrollControl">
-        <template id="contenido" is="auto-binding" repeat="{{events}}">
-          <ul class="box">
-            <div style="text-align: center">
-              <core-icon  src="{{actor.avatar_url}}" class="imgEvent" alt="hola">
-              </core-icon>
-              <a href="https://github.com/{{actor.login}}" style="color: black"><span class="name" >{{actor.login}}</span></a>
-            </div>
-            </br>
-          </br>
-        <p>{{operation}} <a target="_blank"href="https://github.com/{{repo.name}}"><span style="font-style: italic">{{repo.name}}</span></a></p>
-        <a href="https://github.com/{{repo.name}}/commits/{{payload.commits[0].sha}}" target="_blank"><p style="font-style: italic">{{info}}</p></a>
-        <p style="font-size:11px;text-align:right">{{ date }}</p>
-        </ul>
-      </template>
-
-    <template if="{{ lastPage != page && !show}}">
-      <ul class="box" style="text-align:center;cursor: pointer;font-size: 16px"  on-click={{load}}>
-        <span style="font-size: 12px">{{language_data.load_more}}</span>
+    <template if="{{show}}">
+      <ul class="box" style="border-bottom: 5px solid rgba(24, 41, 49, 0.67);cursor:wait;text-align:center">
+        <p>{{language_data.loading}}</p>
       </ul>
     </template>
-    </div>
-  </paper-shadow>
+
+    <div style="overflow-y: scroll;max-height: 400px" id="scrollControl">
+      <template id="contenido" is="auto-binding" repeat="{{events}}">
+        <ul class="box">
+          <div style="text-align: center">
+            <iron-icon  src="{{actor.avatar_url}}" class="imgEvent" alt="hola">
+            </iron-icon>
+            <a href="https://github.com/{{actor.login}}" style="color: black"><span class="name" >{{actor.login}}</span></a>
+          </div>
+          </br>
+        </br>
+      <p>{{operation}} <a target="_blank"href="https://github.com/{{repo.name}}"><span style="font-style: italic">{{repo.name}}</span></a></p>
+      <a href="https://github.com/{{repo.name}}/commits/{{payload.commits[0].sha}}" target="_blank"><p style="font-style: italic">{{info}}</p></a>
+      <p style="font-size:11px;text-align:right">{{ date }}</p>
+      </ul>
+  </template>
+
+  <template if="{{ lastPage != page && !show}}">
+    <ul class="box" style="text-align:center;cursor: pointer;font-size: 16px"  on-click={{load}}>
+      <span style="font-size: 12px">{{language_data.load_more}}</span>
+    </ul>
+  </template>
+  </div>
 </template>
 
 <script>
-  Polymer({
-    per_page: 15,
-    username:'',
-    token:'',
-    events:'',
-    lastPage:'',
-    show:true,
-    page:'1',
-    language:'es',
 
-    ready: function () {
-      // Set Header for authorize request
+
+  Polymer({
+
+    is: "github-events",
+    properties: {
+      per_page: {
+        type: Number,
+        value:15,
+        notify: true,
+        reflectToAttribute: true
+      },
+      username: {
+        type: String,
+        value: '',
+        notify: true,
+        reflectToAttribute: true
+      },
+      token: {
+        type: String,
+        value: '',
+        notify: true,
+        reflectToAttribute: true
+      },
+      events: {
+        type: String,
+        value: '',
+        notify: true,
+        reflectToAttribute: true
+      },
+      lastPage: {
+        type: String,
+        value: '',
+        notify: true,
+        reflectToAttribute: true
+      },
+      show: {
+        type: Boolean,
+        value: true,
+        notify: true,
+        reflectToAttribute: true
+      },
+      page: {
+        type: Number,
+        value: 1,
+        notify: true,
+        reflectToAttribute: true
+      },
+      language: {
+        type: String,
+        value: 'es',
+        notify: true,
+        reflectToAttribute: true,
+        observer: '_languageChanged'
+      },
+      idioma: {
+        type: String,
+        notify: true
+      },
+      language_url: {
+        type: String,
+        computed: 'processUrl(idioma)'
+      }
+    },
+    
+    attached : function() {
       if (this.token != '') {
         this.$.request.headers = '{"Authorization":"token '+this.token+'"}';
       }
@@ -117,24 +251,10 @@ Element providing solution to no problem in particular.
         }else if(this.language == 'en'){
           this.idioma = 'en_en.json'
         }
-        this.$.requestLanguage.go();
+        this.$.requestLanguage.generateRequest();
       }
     },
-    domReady : function() {
-      if (this.token != '') {
-        this.$.request.headers = '{"Authorization":"token '+this.token+'"}';
-      }
-      // Call Github Api
-      if (this.username) {
-        if(this.language == 'es'){
-          this.idioma = 'es_es.json'
-        }else if(this.language == 'en'){
-          this.idioma = 'en_en.json'
-        }
-        this.$.requestLanguage.go();
-      }
-    },
-    response: function(event,detail,sender){
+    _response: function(event,detail,sender){
       // Github events
       this.events = this.changeEvent(detail.response);
       // Check lastPage
@@ -155,10 +275,10 @@ Element providing solution to no problem in particular.
         this.page++;
     },
 
-    language_response: function(event, detail,sender){
-      this.language_data = sender.response;
+    _language_response: function(event, detail){
+      this.language_data = detail.response;
       if(!this.events){
-        this.$.request.go()
+        this.$.request.generateRequest();
       }
       else{
         this.events = this.changeEvent(this.events)
@@ -167,21 +287,21 @@ Element providing solution to no problem in particular.
       }
     },
 
-    attributeChanged: function(attrName, oldVal, newVal){
+    _languageChanged: function(oldVal, newVal){
       if(newVal === "en" && attrName == "language"){
         this.language = "en";
         this.idioma = "en_en.json"
-        this.$.requestLanguage.go();
+        this.$.requestLanguage.generateRequest();
       }
       else if(newVal === "es" && attrName == "language"){
         this.language = "es";
         this.idioma = "es_es.json"
-        this.$.requestLanguage.go();
+        this.$.requestLanguage.generateRequest();
       }
     },
 
     load: function(){
-      this.$.request.go();
+      this.$.request.generateRequest();
     },
 
     refresh: function(){
@@ -231,6 +351,10 @@ Element providing solution to no problem in particular.
       }
       return list;
     },
+    
+    processUrl: function(idioma) {
+      return "language/" + idioma; 
+    }
   });
 </script>
-</polymer-element>
+</dom-module>
