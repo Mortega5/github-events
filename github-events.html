@@ -87,7 +87,7 @@ Element providing solution to no problem in particular.
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
     }
-    core-icon > div {
+    iron-icon > div {
       background-repeat: no-repeat;
       border:none;
     }
@@ -161,7 +161,7 @@ Element providing solution to no problem in particular.
       <template id="contenido" is="dom-repeat" items="{{events}}">
         <ul class="box">
           <div style="text-align: center">
-            <iron-icon  src="{{item.actor.avatar_url}}" class="imgEvent" alt="hola">
+            <iron-icon src="{{item.actor.avatar_url}}" class="imgEvent">
             </iron-icon>
             <a href="https://github.com/{{item.actor.login}}" style="color: black"><span class="name" >{{item.actor.login}}</span></a>
           </div>
