@@ -9,9 +9,10 @@
   "main": "github-events.html",
   "license": "Apache",
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5.5",
-    "core-ajax": "Polymer/core-ajax#~0.5.6",
-    "paper-shadow": "Polymer/paper-shadow#~0.5.6",
-    "core-icon": "Polymer/core-icon#~0.5.6"
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.4",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.6",
+    "iron-icon": "PolymerElements/iron-icon#~1.0.5",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#~1.0.4",
+    "paper-material": "PolymerElements/paper-material#~1.0.2"
   }
 }
