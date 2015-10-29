@@ -239,7 +239,8 @@ Element providing solution to no problem in particular.
           type: String,
           value: 'es',
           notify: true,
-          reflectToAttribute: true
+          reflectToAttribute: true,
+          observer: "_languageChanged"
         },
         language_url: {
           type: String,
@@ -263,15 +264,6 @@ Element providing solution to no problem in particular.
       attached : function() {
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
-        }
-        // Call Github Api
-        if (this.username) {
-          if(this.language == 'es'){
-            this.idioma = 'es_es.json'
-          }else if(this.language == 'en'){
-            this.idioma = 'en_en.json'
-          }
-          this.$.requestLanguage.generateRequest();
         }
       },
       _response: function(event,detail){
@@ -304,13 +296,13 @@ Element providing solution to no problem in particular.
         }
       },
 
-      _languageChanged: function(oldVal, newVal){
-        if(newVal === "en" && attrName == "language"){
+      _languageChanged: function(newVal){
+        if(newVal === "en"){
           this.language = "en";
           this.idioma = "en_en.json"
           this.$.requestLanguage.generateRequest();
         }
-        else if(newVal === "es" && attrName == "language"){
+        else if(newVal === "es"){
           this.language = "es";
           this.idioma = "es_es.json"
           this.$.requestLanguage.generateRequest();
