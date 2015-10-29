@@ -16,13 +16,13 @@ limitations under the License.
 -->
 
 
-<link rel="import" href="zz/polymer/polymer.html">
-<link rel="import" href="zz/iron-ajax/iron-ajax.html">
-<link rel="import" href="zz/iron-icon/iron-icon.html">
-<link rel="import" href="zz/iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="zz/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="zz/paper-material/paper-material.html">
-<link rel="import" href="zz/iron-icons/iron-icons.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -232,8 +232,7 @@ Element providing solution to no problem in particular.
         page: {
           type: Number,
           value: 1,
-          notify: true,
-          reflectToAttribute: true
+          notify: true
         },
         language: {
           type: String,
@@ -244,7 +243,7 @@ Element providing solution to no problem in particular.
         },
         language_url: {
           type: String,
-          computed: '_processUrl(idioma)'
+          computed: '_processUrl(component_directory, idioma)'
         },
         events_url: {
           type: String,
@@ -258,6 +257,11 @@ Element providing solution to no problem in particular.
         token: {
           type:String,
           notify: true
+        },
+        component_directory: {
+          type:String,
+          value: "",
+          reflectToAttribute: true
         }
       },
 
@@ -265,6 +269,7 @@ Element providing solution to no problem in particular.
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
         }
+        this.$.requestLanguage.generateRequest();
       },
       _response: function(event,detail){
         // Github events
@@ -291,8 +296,6 @@ Element providing solution to no problem in particular.
         }
         else{
           this.events = this.changeEvent(this.events)
-          var t = this.$.contenido;
-          t.events = this.events;
         }
       },
 
@@ -300,11 +303,12 @@ Element providing solution to no problem in particular.
         if(newVal === "en"){
           this.language = "en";
           this.idioma = "en_en.json"
-          this.$.requestLanguage.generateRequest();
         }
         else if(newVal === "es"){
           this.language = "es";
           this.idioma = "es_es.json"
+        }
+        if (this.component_directory || this.component_directory == "") {
           this.$.requestLanguage.generateRequest();
         }
       },
@@ -362,8 +366,8 @@ Element providing solution to no problem in particular.
       },
 
       // Proces
-      _processUrl: function(idioma) {
-        return "language/" + idioma; 
+      _processUrl: function(component_directory, idioma) {
+        return component_directory + "language/" + idioma; 
       },
       _processEventUrl: function(username) {
         return "https://api.github.com/users/" + username + "/received_events";
