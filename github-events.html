@@ -258,6 +258,11 @@ Element providing solution to no problem in particular.
         token: {
           type:String,
           notify: true
+        },
+        languageBase: {
+          type: String,
+          value: "bower_components/github-events",
+          reflectToAttribute:true;
         }
       },
 
@@ -363,7 +368,7 @@ Element providing solution to no problem in particular.
 
       // Proces
       _processUrl: function(idioma) {
-        return "bower_components/github-eventslanguage/" + idioma; 
+        return this.languageBase + "/language/" + idioma; 
       },
       _processEventUrl: function(username) {
         return "https://api.github.com/users/" + username + "/received_events";
