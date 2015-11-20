@@ -264,16 +264,24 @@ Element providing solution to no problem in particular.
           reflectToAttribute: true
         }
       },
+      
+      sleep: function(milliseconds) {
+        var start = new Date().getTime();
+        while ((new Date().getTime() - start) <= milliseconds);
+      },
+      
+      ready : function() {
+        var tiempo = new Date().getTime();
 
-      attached : function() {
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
         }
+        console.log("Tiempo interno: " + (new Date().getTime() - tiempo));
         this.$.requestLanguage.generateRequest();
       },
       _response: function(event,detail){
         // Github events
-
+        this.sleep(2000);
         if (this.events) {
           for (i=0;i<detail.response.length;i++) {
             this.push('events', detail.response[i])
