@@ -349,8 +349,15 @@ Element providing solution to no problem in particular.
               this.set("events." + i + ".operation", this.language_data.pull_request);
               break;
             case "IssuesEvent":
+              var message;
+              message = this.language_data[list[i].payload.action] + " "
+              this.set("events." + i + ".operation", message);
               break;
             case "MemberEvent":
+              var message;
+              message=this.language_data[list[i].payload.action] + " " + list[i].payload.member.login;
+              message+= " " + this.language_data.to + " ";
+              this.set("events." + i + ".operation", message);
               break;
             case "ReleaseEvent":
               break;

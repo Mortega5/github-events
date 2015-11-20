@@ -21,8 +21,8 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [x] WatchEvent
 - [x] CreateEvent
 - [x] PullRequestEvent
-- [ ] IssuesEvent
-- [ ] MemberEvent
+- [x] IssuesEvent
+- [x] MemberEvent
 - [ ] ReleaseEvent
 - [ ] CommitCommentEvent
 - [ ] DelateEvent

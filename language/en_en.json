@@ -20,5 +20,9 @@
   "october" : " October ",
   "november" : " November ",
   "december" : " December ",
-  "of" : ""
+  "of" : "",
+  "added": "Added",
+  "to": "to",
+  "opened": "Opened an issue on",
+  "closed": "Closed an issue on"
 }

@@ -20,5 +20,11 @@
   "october" : "Octubre",
   "november" : "Noviembre",
   "december" : "Diciembre",
-  "of" : " de "
+  "of" : " de ",
+  "added": "Añadio a",
+  "to": "a",
+  "opened": "Abrió una issue en",
+  "closed": "Cerro una issue en"
+
+
 }
