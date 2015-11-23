@@ -44,8 +44,8 @@ Element providing solution to no problem in particular.
 		:host {
 			--github-events-width: 450px;
 			--github-events-height: 450px;
-			font-family: helvetica, arial, sans-serif;
-
+			font-family: helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+			color:#2e2e2e;
 		}
 		paper-header-panel {
 			width: var(--github-events-width);
@@ -83,6 +83,7 @@ Element providing solution to no problem in particular.
 			padding: 8px;
 			border-radius: 3px;
 			background-color:#eee;
+			font-size:14px;
 		}
 
 		.eventShadow{
@@ -98,7 +99,24 @@ Element providing solution to no problem in particular.
 		.loadmore {
 			margin:5px auto 10px auto;
 		}
-
+		.header .name {
+			margin: auto 12px;			
+		}
+		.header iron-icon {
+			width: 40px;
+			height: 40px;
+		}
+		.header iron-icon /deep/ img {
+			border-radius: 50%;
+		}
+		.header .date {
+			font-size:11px;
+		}
+		a {
+			text-decoration: none;
+			color: #1e71bf;
+			font-weight: bold;
+		}
 	</style>
 
 	<template id="template"> 
@@ -131,10 +149,46 @@ Element providing solution to no problem in particular.
 				<template is="dom-repeat" items="{{events}}">
 					<paper-material elevation="2" class="eventShadow">
 						<div class="event">
+							<!-- HEADER user and time information -->
+							<div class="header horizontal layout">
+								<iron-icon src="{{item.actor.avatar_url}}" class="imgEvent"></iron-icon>
+								<a href$="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="flex name">
+									{{item.actor.login}}
+								</a>
+								<span class="date">{{item.date}}</span>
+							</div>
+
+							<!-- content information-->
+							<p style="clear:both;margin:10px inherit">{{item.operation}}<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+								<span>{{item.repo.name}}</span>
+								</a>
+							</p>
+							<a href$="{{_getCommitInfo(item.repo.name, item.payload.commits[0],sha)}}"a target="_blank">
+								<p>{{item.info}}</p>
+							</a>
+
+
+
+							<template is="dom-if" if="[[_checkPostType(item.type, 'PushEvent')]]">
+
+							</template>
+							<template is="dom-if" if="[[_checkPostType(item.type, 'WatchEvent')]]">
+
+							</template>
+							<template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
+
+							</template>
+							<template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestEvent')]]">
+
+							</template>
+							<template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
+
+							</template>
 
 						</div>
-					</paper-material>
+					</paper-material>						
 				</template>
+
 				<!-- Show more button -->
 				<template is="dom-if" if="[[_showLoadMore(lastPage, page, show)]]">
 					<div class="horizontal center-justified layout">
@@ -322,7 +376,7 @@ Element providing solution to no problem in particular.
 					};
 					var date = new Date(list[i].created_at);
 					var month = [this.language_data.january,this.language_data.february,this.language_data.march,this.language_data.april, this.language_data.may,this.language_data.june,this.language_data.july,this.language_data.august,this.language_data.september,this.language_data.october,this.language_data.november,this.language_data.december];
-					list[i].date =this.language_data.date+date.getDate()+ this.language_data.of +month[date.getMonth()]+this.language_data.of+date.getFullYear();
+					list[i].date =date.getDate()+ "  "+month[date.getMonth()]+". "+date.getFullYear();
 				}
 				return list;
 			},
@@ -332,7 +386,8 @@ Element providing solution to no problem in particular.
 				return component_directory + "language/" + idioma; 
 			},
 			_processEventUrl: function(username) {
-				return "https://api.github.com/users/" + username + "/received_events";
+				return "mockdata.json";
+				/*return "https://api.github.com/users/" + username + "/received_events";*/
 			},
 			_processEventParams: function(page, per_page) {
 				return {"page": page,"per_page": per_page}
@@ -347,9 +402,8 @@ Element providing solution to no problem in particular.
 			_getCommitInfo: function(name, commit) {
 				return "https://github.com/" + name + "/commits/" + commit;
 			},
-
-			checkScroll: function(){
-				console.log("HOlaaaaa");
+			_checkPostType: function(origin, type) {
+				return origin === type;
 			}
 
 		});
