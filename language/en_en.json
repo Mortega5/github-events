@@ -4,7 +4,7 @@
   "loading" : "Loading...",
   "load_more" : "Show more events",
   "push" : "Made a push to ",
-  "follow" : "Started to follow the repository ",
+  "starred" : "Starred the repository ",
   "create" : "Created the repository in ",
   "pull_request" : "Made a request pull over ",
   "date" : "Date: ",

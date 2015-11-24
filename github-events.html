@@ -19,10 +19,12 @@ limitations under the License.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
+
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/image-icons.html">
 <link rel="import" href="../paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../paper-button/paper-button.html">
 
@@ -42,6 +44,7 @@ Element providing solution to no problem in particular.
 
   <style is="custom-style">
     :host {
+      display: inline-block;
       --github-events-width: 450px;
       --github-events-height: 450px;
       font-family: helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -129,13 +132,25 @@ Element providing solution to no problem in particular.
       text-decoration: underline;
     }
     .event > .content {
-      margin: auto 3px;
+      margin: 10px 3px;
     }
-    
+
     .event > .content > .pushInfo {
       margin: auto 12px;
       font-size: 12px;
     }
+    .watchevent .starIcon {
+      margin:auto 0;
+    }
+    .watchevent .starIcon iron-icon{
+      width: 18px;
+    }
+    .watchevent .starred {
+      padding-top: 5px;
+      margin: 3px 8px;
+      word-break: break-all
+    }
+
   </style>
 
   <template id="template"> 
@@ -171,7 +186,7 @@ Element providing solution to no problem in particular.
               <!-- HEADER user and time information -->
               <div class="header horizontal layout">
                 <iron-icon src="{{item.actor.avatar_url}}" class="imgEvent"></iron-icon>
-                <div class="flex"><a href$="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="name">
+                <div class="flex"><a href="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="name">
                   {{item.actor.login}}
                   </a>
                 </div>
@@ -180,8 +195,8 @@ Element providing solution to no problem in particular.
 
               <!-- content information-->
               <div class="content">
-               
-               <!-- PUSH EVENT -->
+
+                <!-- PUSH EVENT -->
                 <template is="dom-if" if="{{_checkPostType(item.type, 'PushEvent')}}">
                   <p>{{language_data.push}}
                     <a href="{{_getBranchUrl(item.repo.name, item.payload.ref)}}" target="_blank">
@@ -194,15 +209,25 @@ Element providing solution to no problem in particular.
                   </p>
                   <div class="pushInfo">
                     <p>
-                      <a href="google.es">
+                      <a href="{{_getCommitInfo(item.repo.name, item.payload.head)}}" target="_blank">
                         <span>{{_getCommitHead(item.payload.head)}}</span>
                       </a>
                       <span> {{_getCommitMessage(item.payload.commits, 0)}}</span>
                     </p>
                   </div>
                 </template>
-                <template is="dom-if" if="[[_checkPostType(item.type, 'WatchEvent')]]">
 
+                <!-- WATCH EVENT -->
+                <template is="dom-if" if="[[_checkPostType(item.type, 'WatchEvent')]]">
+                  <div class="horizontal layout watchevent">
+                    <div class="starIcon"><iron-icon icon="star"></iron-icon></div>
+                    <p class="starred">
+                      <span>{{language_data.starred}}</span>
+                      <a href="{{_getUrlWithGithub(item.repo.name)}}" target="_blank">
+                        <span>{{item.repo.name}}</span>
+                      </a>
+                    </p>
+                  </div>
                 </template>
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
 
@@ -302,8 +327,9 @@ Element providing solution to no problem in particular.
       },
 
       attached : function() {
+        this.token = "a0f4499194065c8ec685f02c2f9d341ac30e767"
         if (this.token) {
-          this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
+          this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'9"}');
         }
         this.$.requestLanguage.generateRequest();
       },
@@ -376,7 +402,7 @@ Element providing solution to no problem in particular.
               };
               break;
             case "WatchEvent":
-              this.set("events." + i + ".operation", this.language_data.follow);
+              this.set("events." + i + ".operation", this.language_data.starred);
               break;
             case "CreateEvent":
               this.set("events." + i + ".operation", this.language_data.create);
@@ -406,6 +432,7 @@ Element providing solution to no problem in particular.
         }
         return list;
       },
+
       _changeTime: function(list){
         for (i=0;i<list.length;i++){
           var date = new Date(list[i].created_at);
@@ -455,6 +482,7 @@ Element providing solution to no problem in particular.
 
         }
       },
+      // GETTERS
       _getBranch: function(ref) {
         refSplited = ref.split("/");
         return refSplited[refSplited.length-1];
@@ -468,6 +496,12 @@ Element providing solution to no problem in particular.
       },
       _getCommitMessage: function(commits, position) {
         return commits[position].message;
+      },
+      _getUrlWithGithub: function(path) {
+        return "https://github.com/" + path;
+      },
+      _getCommitInfo: function(name, commit) {
+        return "https://github.com/" + name + "/commit/" + commit;
       },
       // Proces
       _processUrl: function(component_directory, idioma) {
@@ -484,12 +518,7 @@ Element providing solution to no problem in particular.
         return lastPage > page && !show;
       },
 
-      _getUrlWithGithub: function(path) {
-        return "https://github.com/" + path;
-      },
-      _getCommitInfo: function(name, commit) {
-        return "https://github.com/" + name + "/commits/" + commit;
-      },
+
       _checkPostType: function(origin, type) {
         return origin === type;
       }
