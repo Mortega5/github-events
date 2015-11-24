@@ -17,11 +17,11 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 
 ## Parser Status
 
-- [x] PushEvent
-- [x] WatchEvent
-- [x] CreateEvent
-- [x]PullRequestEvent
-- [ ] IssuesEvent
+- [x] 1.PushEvent
+- [x] 2.WatchEvent
+- [x] 3.CreateEvent
+- [x] 4.PullRequestEvent
+- [ ] 5.IssuesEvent
   - [ ] opened
   - [ ] closed
   - [ ] reopened
@@ -29,12 +29,26 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
   - [ ] unassigned
   - [ ] labeled
   - [ ] unlabeled
-- [ ] MemberEvent
-- [ ] ReleaseEvent
-- [ ] CommitCommentEvent
-- [x] DelateEvent
-- [ ] GollumEvent
-- [ ] IssueCommentEvent
-- [ ] PublicEvent
-- [ ] PullRequestReviewCommentEvent
-- [ ] ForkEvent
+- [ ] 6.MemberEvent
+- [ ] 7.ReleaseEvent
+- [ ] 8.CommitCommentEvent
+- [x] 9.DeleteEvent
+- [ ] 10.GollumEvent
+- [ ] 11.IssueCommentEvent
+- [ ] 12.PublicEvent
+- [ ] 13.PullRequestReviewCommentEvent
+- [ ] 14.ForkEvent
+
+#### NEXT VERSION
+ 
+ - [ ] 15.TeamAddEvent
+ - [ ] 16.StatusEvent
+ - [ ] 17.RepositoryEvent
+ - [ ] 18.PageBuildEvent
+ - [ ] 19.MembershipEvent
+ - [ ] 20.GistEvent
+ - [ ] 21.ForkApplyEvent
+ - [ ] 22.FollowEvent
+ - [ ] 23.DownloadEvent
+ - [ ] 24.DeploymentStatusEvent
+ - [ ] 25.DeploymentEvent
