@@ -21,14 +21,10 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [x] 2.WatchEvent
 - [x] 3.CreateEvent
 - [x] 4.PullRequestEvent
-- [ ] 5.IssuesEvent
-  - [ ] opened
-  - [ ] closed
-  - [ ] reopened
-  - [ ] assigned
-  - [ ] unassigned
-  - [ ] labeled
-  - [ ] unlabeled
+- [x] 5.IssuesEvent
+  - [x] opened
+  - [x] closed
+  - [x] reopened
 - [x] 6.MemberEvent
 - [ ] 7.ReleaseEvent
 - [ ] 8.CommitCommentEvent
@@ -40,7 +36,11 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [ ] 14.ForkEvent
 
 #### NEXT VERSION
- 
+ - [ ] 5. IssuesEvent
+	 - [ ] assigned
+	 - [ ] unassigned
+	 - [ ] labeled
+	 - [ ] unlabeled
  - [ ] 15.TeamAddEvent
  - [ ] 16.StatusEvent
  - [ ] 17.RepositoryEvent

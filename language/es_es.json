@@ -44,5 +44,13 @@
 		"tag": "Creó la etiqueta"
 	},
 	"member": "Añadio a",
-	"to": "a"
+	"to": "a",
+		"issuesEvent": {
+		"opened": "Abrió la issue",
+		"assigned": "Asigní la issue",
+		"unassigned": "Desasignó la issue",
+		"labeled": "Etiquetó la issue",
+		"closed": "Cerró la issue",
+		"reopened": "Reabrió la issue"
+	}
 }

@@ -44,5 +44,13 @@
 		"tag": "Created tag"
 	},
 	"member": "Added ",
-	"to": "to"
+	"to": "to",
+	"issuesEvent": {
+		"opened": "Opened issue",
+		"assigned": "Assigned issue",
+		"unassigned": "Unassigned issue",
+		"labeled": "Labeled issue",
+		"closed": "Closed issue",
+		"reopened": "Reopened issue"
+	}
 }

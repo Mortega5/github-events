@@ -154,7 +154,6 @@ Element providing solution to no problem in particular.
 			font-weight: bold;
 			color:darkred;
 		}
-
 	</style>
 
 	<template id="template"> 
@@ -289,12 +288,49 @@ Element providing solution to no problem in particular.
 								</template>
 								<!-- ISSUES EVENTS -->
 								<template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
-									TODO ISSUES EVENTS
 									<template is="dom-if" if="[[_checkPostType(item.payload.action, 'opened')]]">
-										Not yet implemented opened
+										<div class="horizontal layout">
+											<div class="githubIcon">
+												<span class="octicon octicon-issue-opened"></span>
+											</div>
+											<div>
+												<p class="text">
+													<span>{{language_data.issuesEvent.opened}}</span>
+													<a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+														<span>#{{item.payload.issue.number}}</span>
+													</a>
+													<span> {{language_data.at}}</span>
+													<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+														<span>{{item.repo.name}}</span>
+													</a>
+												</p>
+											</div>
+										</div>
+										<div class="additionalInfo">
+											<p style="margin:0px">{{item.payload.issue.title}}</p>
+										</div>
 									</template>
 									<template is="dom-if" if="[[_checkPostType(item.payload.action, 'closed')]]">
-										Not yet implemented closed
+										<div class="horizontal layout">
+											<div class="githubIcon">
+												<span class="octicon octicon-issue-closed"></span>
+											</div>
+											<div>
+												<p class="text">
+													<span>{{language_data.issuesEvent.closed}}</span>
+													<a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+														<span>#{{item.payload.issue.number}}</span>
+													</a>
+													<span> {{language_data.at}}</span>
+													<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+														<span>{{item.repo.name}}</span>
+													</a>
+												</p>
+											</div>
+										</div>
+										<div class="additionalInfo">
+											<p style="margin:0px">{{item.payload.issue.title}}</p>
+										</div>
 									</template>
 									<template is="dom-if" if="[[_checkPostType(item.payload.action, 'assigned')]]">
 										Not yet implemented assigned
@@ -309,7 +345,26 @@ Element providing solution to no problem in particular.
 										Not yet implemented unlabeled
 									</template>
 									<template is="dom-if" if="[[_checkPostType(item.payload.action, 'reopened')]]">
-										Not yet implemented reopened
+										<div class="horizontal layout">
+											<div class="githubIcon">
+												<span class="octicon octicon-issue-reopened"></span>
+											</div>
+											<div>
+												<p class="text">
+													<span>{{language_data.issuesEvent.reopened}}</span>
+													<a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+														<span>#{{item.payload.issue.number}}</span>
+													</a>
+													<span> {{language_data.at}}</span>
+													<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+														<span>{{item.repo.name}}</span>
+													</a>
+												</p>
+											</div>
+										</div>
+										<div class="additionalInfo">
+											<p style="margin:0px">{{item.payload.issue.title}}</p>
+										</div>
 									</template>
 								</template>
 
@@ -339,7 +394,7 @@ Element providing solution to no problem in particular.
 											<a href="{{_getUrlWithGithub(item.payload.member.login)}}" target="_blank" class="name">
 												<span>{{item.payload.member.login}}</span>
 											</a>
-											<span>{{language_data.to}}</span>
+											<span>{{language_data.at}}</span>
 											<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
 												<span>{{item.repo.name}}</span>
 											</a>
@@ -491,7 +546,6 @@ Element providing solution to no problem in particular.
 						}
 					};
 				}
-				this.changeEvent(this.events);
 				this._changeTime(this.events);
 
 				// Check lastPage
@@ -515,7 +569,6 @@ Element providing solution to no problem in particular.
 					this.$.request.generateRequest();
 				}
 				else{
-					this.events = this.changeEvent(this.events);
 					this._changeTime(this.events);
 					for (i=0;i<this.events.length;i++) {
 						if (this.events[i].type === "PullRequestEvent") {
@@ -544,49 +597,7 @@ Element providing solution to no problem in particular.
 			},
 
 			refresh: function(){
-				this.changeEvent(this.events);
 				this._changeTime(this.events);
-			},
-
-			changeEvent: function(list){
-				for (i=0;i<list.length;i++){
-					switch(list[i].type) {
-						case "PushEvent":
-							this.set("events." + i + ".operation", this.language_data.push);
-							if (list[i].info) {
-								this.set("events." + i + ".info", "Commit: \n "+list[i].payload.commits[0].message)
-							};
-							break;
-						case "WatchEvent":
-							this.set("events." + i + ".operation", this.language_data.starred);
-							break;
-						case "CreateEvent":
-							this.set("events." + i + ".operation", this.language_data.create);
-							break;
-						case "PullRequestEvent":
-							this.set("events." + i + ".operation", this.language_data.pull_request);
-							break;
-						case "IssuesEvent":
-							break;
-						case "MemberEvent":
-							break;
-						case "ReleaseEvent":
-							break;
-						case "CommitCommentEvent":
-							break;
-						case "DelateEvent":
-							break;
-						case "GollumEvent":
-							break;
-						case "IssueCommentEvent":
-							break;
-						case "PublicEvent":
-							break;
-						case "PullRequestReviewCommentEvent":
-							break;
-					};
-				}
-				return list;
 			},
 
 			_changeTime: function(list){
@@ -662,7 +673,10 @@ Element providing solution to no problem in particular.
 			_getPullRequestUrl: function(repo, pullRequesId) {
 				return "https://github.com/" + repo + "/pull/" + pullRequesId;
 			},
-			// Proces
+			_getIssueUrl: function(repo, number) {
+				return "https://github.com/" + repo + "/issues/" + number;
+			},
+			// Process
 			_processUrl: function(component_directory, idioma) {
 				return component_directory + "language/" + idioma; 
 			},
