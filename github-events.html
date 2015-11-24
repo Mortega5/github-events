@@ -386,8 +386,8 @@ Element providing solution to no problem in particular.
 				return component_directory + "language/" + idioma; 
 			},
 			_processEventUrl: function(username) {
-				return "mockdata.json";
-				/*return "https://api.github.com/users/" + username + "/received_events";*/
+				/*return "mockdata.json";*/
+				return "https://api.github.com/users/" + username + "/received_events";
 			},
 			_processEventParams: function(page, per_page) {
 				return {"page": page,"per_page": per_page}
