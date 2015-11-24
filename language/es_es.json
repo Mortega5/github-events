@@ -37,5 +37,10 @@
 	"labeledPullRequest": "Etiquetó la pull request",
 	"closedPullRequest": "Cerró la pull request",
 	"reopenedPullRequest": "Reabrió la pull request",
-	"delete": "Borró la rama"
+	"delete": "Borró la rama",
+	"createEvent": {
+		"repository": "Creó un repositorio",
+		"branch": "Creó la rama",
+		"tag": "Creó la etiqueta"
+	}
 }

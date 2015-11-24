@@ -19,8 +19,8 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 
 - [x] PushEvent
 - [x] WatchEvent
-- [ ] CreateEvent
-- [x] PullRequestEvent
+- [x] CreateEvent
+- [x]PullRequestEvent
 - [ ] IssuesEvent
   - [ ] opened
   - [ ] closed
@@ -37,3 +37,4 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [ ] IssueCommentEvent
 - [ ] PublicEvent
 - [ ] PullRequestReviewCommentEvent
+- [ ] ForkEvent

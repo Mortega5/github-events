@@ -37,5 +37,10 @@
 	"labeledPullRequest": "Labeled pull request",
 	"closedPullRequest": "Closed pull request",
 	"reopenedPullRequest": "Reopened pull request",
-	"delete": "Deleted branch"
+	"delete": "Deleted branch",
+	"createEvent": {
+		"repository": "Created repository",
+		"branch": "Created branch",
+		"tag": "Created tag"
+	}
 }

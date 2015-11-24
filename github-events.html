@@ -243,8 +243,25 @@ Element providing solution to no problem in particular.
 									</div>
 								</template>
 
+								<!-- CREATE EVENT -->
 								<template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
-									TODO create events
+									<div class="horizontal layout">
+										<div class="githubIcon">
+											<span class="octicon octicon-git-branch"></span>
+										</div>
+										<p class="text">
+											<span>{{item.createEvent}}</span>
+											<template is="dom-if" if={{item.payload.ref}}>
+												<a href="{{_getBranchUrl(item.repo.name, item.payload.ref)}}" target="_blank">
+													<span>{{item.payload.ref}}</span>
+												</a>
+											</template>
+											<span>{{language_data.at}}</span>
+											<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+												<span>{{item.repo.name}}</span>
+											</a>
+										</p>
+									</div>
 								</template>
 
 								<!-- PULL REQUEST EVENT -->
@@ -339,6 +356,9 @@ Element providing solution to no problem in particular.
 
 								<template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestReviewCommentEvent')]]">
 									TODO pull request review event
+								</template>
+								<template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
+									TODO pull request fork event
 								</template>
 
 
@@ -443,6 +463,8 @@ Element providing solution to no problem in particular.
 					for (i=0;i<detail.response.length;i++) {
 						if (detail.response[i].type === "PullRequestEvent") {
 							detail.response[i].pullRequestAction = this.language_data[detail.response[i].payload.action + "PullRequest"];
+						} else if (detail.response[i].type === "CreateEvent") {
+							detail.response[i].createEvent = this.language_data.createEvent[detail.response[i].payload.ref_type];
 						}
 						this.push('events', detail.response[i])
 					};
@@ -451,6 +473,8 @@ Element providing solution to no problem in particular.
 					for (i=0;i<this.events.length;i++) {
 						if (this.events[i].type === "PullRequestEvent") {
 							this.set('events.' + i + '.pullRequestAction', this.language_data[this.events[i].payload.action + "PullRequest"])
+						} else if (this.events[i].type === "CreateEvent") {
+							this.set('events.' + i + '.createEvent', this.language_data.createEvent[this.events[i].payload.ref_type]);
 						}
 					};
 				}
