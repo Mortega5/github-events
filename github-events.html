@@ -150,6 +150,9 @@ Element providing solution to no problem in particular.
       margin: 3px 8px;
       word-break: break-all
     }
+    .loading {
+    margin:auto;
+    }
 
   </style>
 
@@ -252,14 +255,12 @@ Element providing solution to no problem in particular.
           </div>
         </template>
         <!-- loading screen-->
-        <template is="dom-if" if="{{_noExist(events.length)}}">
-          <paper-material elevation="2" class="loadmore">
-            <div class="post vertical center-justified layout">
-              <img class="loading" src="https://cbschicago.files.wordpress.com/2014/09/loading.gif?w=620&h=349&crop=1">
-            </div>
-          </paper-material>
-        </template>
       </div>
+        <template is="dom-if" if="{{_noEvents()}}">
+            <div class="vertical center-justified layout">
+              <img class="loading" src="http://www.schultzlawoffice.com/img/loading/loading-x.gif">
+            </div>
+        </template>
     </paper-header-panel>
   </template>
 
@@ -365,7 +366,8 @@ Element providing solution to no problem in particular.
           this.$.request.generateRequest();
         }
         else{
-          this.events = this.changeEvent(this.events)
+          this.events = this.changeEvent(this.events);
+          this._changeTime(this.events);
         }
       },
 
@@ -521,6 +523,9 @@ Element providing solution to no problem in particular.
 
       _checkPostType: function(origin, type) {
         return origin === type;
+      },
+      _noEvents: function() {
+        return !this.events;
       }
 
     });
