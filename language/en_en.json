@@ -38,5 +38,6 @@
     "labeled": "TODO",
     "closed": "TODO",
     "reopened": "TODO"
-  }
+  },
+	"delete": "Deleted the branch"
 }

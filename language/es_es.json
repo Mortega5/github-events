@@ -3,7 +3,7 @@
   "title" : "Últimos eventos",
   "loading" : "Cargando...",
   "load_more" : "Mostrar más eventos",
-  "push" : "Realizó un push a ",
+  "push" : "Realizó un push a la rama ",
   "starred" : "Empezó a seguir el repositorio ",
   "create" : "Ha creado el repositorio en ",
   "pull_request" : "Realizó una pull request sobre ",
@@ -30,5 +30,6 @@
   "october" : "Oct",
   "november" : "Nov",
   "december" : "Dic",
-  "at": "en"
+  "at": "en",
+	"delete": "Borró la rama"
 }

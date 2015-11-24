@@ -32,7 +32,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [ ] MemberEvent
 - [ ] ReleaseEvent
 - [ ] CommitCommentEvent
-- [ ] DelateEvent
+- [x] DelateEvent
 - [ ] GollumEvent
 - [ ] IssueCommentEvent
 - [ ] PublicEvent
