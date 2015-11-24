@@ -30,5 +30,13 @@
   "october" : "Oct",
   "november" : "Nov",
   "december" : " Dec",
-  "at": "at"
+  "at": "at",
+  "issuesevents": {
+    "opened": "TODO",
+    "assigned": "TODO",
+    "unassigned": "TODO",
+    "labeled": "TODO",
+    "closed": "TODO",
+    "reopened": "TODO"
+  }
 }
