@@ -20,7 +20,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [x] PushEvent
 - [x] WatchEvent
 - [ ] CreateEvent
-- [ ] PullRequestEvent
+- [x] PullRequestEvent
 - [ ] IssuesEvent
   - [ ] opened
   - [ ] closed

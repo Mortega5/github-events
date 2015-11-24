@@ -133,8 +133,8 @@ Element providing solution to no problem in particular.
 			margin: 10px 3px;
 		}
 
-		.event > .content > .pushInfo {
-			margin: auto 28px;
+		.additionalInfo {
+			margin: 5px 28px;
 			font-size: 12px;
 		}
 		.githubIcon {
@@ -219,7 +219,7 @@ Element providing solution to no problem in particular.
 											</p>
 										</div>
 									</div>
-									<div class="pushInfo">
+									<div class="additionalInfo">
 										<p>
 											<a href="{{_getCommitInfo(item.repo.name, item.payload.head)}}" target="_blank">
 												<span>{{_getCommitHead(item.payload.head)}}</span>
@@ -258,8 +258,18 @@ Element providing solution to no problem in particular.
 										<div>
 											<p class="text">
 												<span>{{item.pullRequestAction}}</span>
+												<a href="{{_getPullRequestUrl(item.repo.name, item.payload.number)}}" target="_blank">
+													<span>#{{item.payload.number}}</span>
+												</a>
+												<span>{{language_data.at}}</span>
+												<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+													<span>{{item.repo.name}}</span>
+												</a>
 											</p>
 										</div>
+									</div>
+									<div class="additionalInfo">
+										<p style="margin:0px">{{item.payload.pull_request.title}}</p>
 									</div>
 								</template>
 								<!-- ISSUES EVENTS -->
@@ -431,10 +441,10 @@ Element providing solution to no problem in particular.
 			_response: function(event,detail){
 				if (this.events.length > 0) {
 					for (i=0;i<detail.response.length;i++) {
-						this.push('events', detail.response[i])
 						if (detail.response[i].type === "PullRequestEvent") {
-							this.set('events.' + i + '.pullRequestAction', this.language_data[detail.response[i].payload.action + "PullRequest"])
+							detail.response[i].pullRequestAction = this.language_data[detail.response[i].payload.action + "PullRequest"];
 						}
+						this.push('events', detail.response[i])
 					};
 				} else {
 					this.set('events', detail.response);
@@ -611,6 +621,9 @@ Element providing solution to no problem in particular.
 			},
 			_getCommitInfo: function(name, commit) {
 				return "https://github.com/" + name + "/commit/" + commit;
+			},
+			_getPullRequestUrl: function(repo, pullRequesId) {
+				return "https://github.com/" + repo + "/pull/" + pullRequesId;
 			},
 			// Proces
 			_processUrl: function(component_directory, idioma) {
