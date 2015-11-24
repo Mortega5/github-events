@@ -42,5 +42,7 @@
 		"repository": "Created repository",
 		"branch": "Created branch",
 		"tag": "Created tag"
-	}
+	},
+	"member": "Added ",
+	"to": "to"
 }

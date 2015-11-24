@@ -144,7 +144,6 @@ Element providing solution to no problem in particular.
 			width: 18px;
 		}
 		.text{
-			padding-top: 5px;
 			margin: 3px 0px 3px 8px;
 			word-break: break-all
 		}
@@ -213,7 +212,7 @@ Element providing solution to no problem in particular.
 													<span>{{_getBranch(item.payload.ref)}}</span>
 												</a>
 												<span>{{language_data.at}}</span>
-												<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+												<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
 													<span>{{item.repo.name}}</span>
 												</a>
 											</p>
@@ -257,7 +256,7 @@ Element providing solution to no problem in particular.
 												</a>
 											</template>
 											<span>{{language_data.at}}</span>
-											<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+											<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
 												<span>{{item.repo.name}}</span>
 											</a>
 										</p>
@@ -269,7 +268,6 @@ Element providing solution to no problem in particular.
 									<div class="horizontal layout">
 										<div class="githubIcon">
 											<span class="octicon octicon-git-pull-request">
-
 											</span>
 										</div>
 										<div>
@@ -279,7 +277,7 @@ Element providing solution to no problem in particular.
 													<span>#{{item.payload.number}}</span>
 												</a>
 												<span>{{language_data.at}}</span>
-												<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+												<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
 													<span>{{item.repo.name}}</span>
 												</a>
 											</p>
@@ -323,7 +321,7 @@ Element providing solution to no problem in particular.
 											<span>{{language_data.delete}}</span>
 											<span class="deletedBranch">{{_getBranch(item.payload.ref)}}</span>
 											<span>{{language_data.at}}</span>
-											<a target="_blank" href$="{{_getUrlWithGithub(item.repo.name)}}">
+											<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
 												<span>{{item.repo.name}}</span>
 											</a>
 										</p>
@@ -331,7 +329,22 @@ Element providing solution to no problem in particular.
 								</template>
 
 								<template is="dom-if" if="[[_checkPostType(item.type, 'MemberEvent')]]">
-									TODO member event
+									<div class="horizontal layout">
+										<div class="githubIcon">
+											<span class="octicon octicon-person"></span>
+
+										</div>
+										<p class="text">
+											<span>{{language_data.member}}</span>
+											<a href="{{_getUrlWithGithub(item.payload.member.login)}}" target="_blank" class="name">
+												<span>{{item.payload.member.login}}</span>
+											</a>
+											<span>{{language_data.to}}</span>
+											<a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+												<span>{{item.repo.name}}</span>
+											</a>
+										</p>
+									</div>
 								</template>
 
 								<template is="dom-if" if="[[_checkPostType(item.type, 'ReleaseEvent')]]">

@@ -42,5 +42,7 @@
 		"repository": "Creó un repositorio",
 		"branch": "Creó la rama",
 		"tag": "Creó la etiqueta"
-	}
+	},
+	"member": "Añadio a",
+	"to": "a"
 }

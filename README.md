@@ -29,7 +29,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
   - [ ] unassigned
   - [ ] labeled
   - [ ] unlabeled
-- [ ] 6.MemberEvent
+- [x] 6.MemberEvent
 - [ ] 7.ReleaseEvent
 - [ ] 8.CommitCommentEvent
 - [x] 9.DeleteEvent
