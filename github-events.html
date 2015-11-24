@@ -151,7 +151,7 @@ Element providing solution to no problem in particular.
       word-break: break-all
     }
     .loading {
-    margin:auto;
+      margin:auto;
     }
 
   </style>
@@ -232,12 +232,14 @@ Element providing solution to no problem in particular.
                     </p>
                   </div>
                 </template>
+                
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
 
                 </template>
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestEvent')]]">
 
                 </template>
+                <!-- ISSUES EVENTS -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
 
                 </template>
@@ -255,12 +257,12 @@ Element providing solution to no problem in particular.
           </div>
         </template>
         <!-- loading screen-->
-      </div>
-        <template is="dom-if" if="{{_noEvents()}}">
-            <div class="vertical center-justified layout">
-              <img class="loading" src="http://www.schultzlawoffice.com/img/loading/loading-x.gif">
-            </div>
+        <template is="dom-if" if="{{_noEvents(events.length)}}">
+          <div class="vertical center-justified layout">
+            <img class="loading" src="http://www.schultzlawoffice.com/img/loading/loading-x.gif">
+          </div>
         </template>
+      </div>
     </paper-header-panel>
   </template>
 
@@ -315,7 +317,10 @@ Element providing solution to no problem in particular.
           type: String,
           computed: '_processEventParams(page, per_page)'
         },
-        events: Object,
+        events: {
+          type: Object,
+          value: []
+        },
         token: {
           type:String,
           notify: true
@@ -335,7 +340,7 @@ Element providing solution to no problem in particular.
         this.$.requestLanguage.generateRequest();
       },
       _response: function(event,detail){
-        if (this.events) {
+        if (this.events.length > 0) {
           for (i=0;i<detail.response.length;i++) {
             this.push('events', detail.response[i])
           };
@@ -362,7 +367,7 @@ Element providing solution to no problem in particular.
 
       _language_response: function(event, detail){
         this.language_data = detail.response;
-        if(!this.events){
+        if(this.events.length === 0){
           this.$.request.generateRequest();
         }
         else{
@@ -524,8 +529,8 @@ Element providing solution to no problem in particular.
       _checkPostType: function(origin, type) {
         return origin === type;
       },
-      _noEvents: function() {
-        return !this.events;
+      _noEvents: function(events) {
+        return events == 0;
       }
 
     });
