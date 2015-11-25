@@ -169,7 +169,14 @@ Element providing solution to no problem in particular.
                on-response="_response"
                >
     </iron-ajax>
-
+    <iron-ajax
+               id="refresh"
+               method="GET"
+               url="{{events_url}}"
+               handleAs="json"
+               on-response="_refreshResponse"
+               >
+    </iron-ajax>
     <iron-ajax
                id="requestLanguage"
                url="{{language_url}}"
@@ -182,7 +189,7 @@ Element providing solution to no problem in particular.
       <div class="paper-header horizontal layout center-justified">
         <div><iron-icon src="picture.png"></iron-icon></div>
         <div class="flex" style="text-align:center"><span class="title">GitHub Events</span></div>
-        <div><paper-icon-button icon="refresh"></paper-icon-button></div>
+        <div><paper-icon-button icon="refresh" on-click="refresh"></paper-icon-button></div>
       </div>
       <div class="content">
         <template is="dom-repeat" items="{{events}}">
@@ -434,6 +441,7 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
+                <!-- COMMIT COMMENT EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CommitCommentEvent')]]">
                   <div class="horizontal layout">
                     <div class="githubIcon">
@@ -452,7 +460,7 @@ Element providing solution to no problem in particular.
                   </div>
                   <div class="additionalInfo">
                     <p>
-                     <iron-icon src="{{item.payload.comment.user.avatar_url}}"></iron-icon>
+                      <iron-icon src="{{item.payload.comment.user.avatar_url}}"></iron-icon>
                       <span>{{item.payload.comment.body}}</span>
                     </p>
                   </div>
@@ -515,8 +523,8 @@ Element providing solution to no problem in particular.
         per_page: {
           type: Number,
           value:15,
-          notify: true,
-          reflectToAttribute: true
+          notify: true/*,
+          reflectToAttribute: true*/
         },
         username: {
           type: String,
@@ -530,7 +538,7 @@ Element providing solution to no problem in particular.
         },
         page: {
           type: Number,
-          value: 1,
+          value: 0,
           notify: true
         },
         language: {
@@ -564,16 +572,25 @@ Element providing solution to no problem in particular.
           type:String,
           value: "",
           reflectToAttribute: true
+        },
+        etag: {
+          type: String,
+          notify: true,
+          observer: '_processRefreshHeader'
         }
       },
 
       attached : function() {
+        //TODO remove that
         this.token = "a0f4499194065c8ec685f02c2f9d341ac30e767"
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'9"}');
+          this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token+'9"}');
         }
         this.$.requestLanguage.generateRequest();
       },
+
+      // AJAX RESPONSE
       _response: function(event,detail){
         if (this.events.length > 0) {
           for (i=0;i<detail.response.length;i++) {
@@ -593,8 +610,11 @@ Element providing solution to no problem in particular.
               this.set('events.' + i + '.createEvent', this.language_data.createEvent[this.events[i].payload.ref_type]);
             }
           };
-        }
+        };
         this._changeTime(this.events);
+
+        // take etag
+        this.etag = detail.xhr.getResponseHeader("ETag");
 
         // Check lastPage
         if (this.lastPage == '') {
@@ -625,7 +645,7 @@ Element providing solution to no problem in particular.
           }
         }
       },
-
+      // OBSERVERS
       _languageChanged: function(newVal){
         if(newVal === "en"){
           this.language = "en";
@@ -640,14 +660,32 @@ Element providing solution to no problem in particular.
         }
       },
 
+      // MORE BUTTON
       load: function(){
         this.$.request.generateRequest();
       },
 
+      // REFRESH REQUEST
       refresh: function(){
-        this._changeTime(this.events);
+        // if-none-match minusculas
+        this.$.refresh.generateRequest();
       },
+      _refreshResponse: function(e, d) {
+        if (d.status === 200){
+          this.etag = d.xhr.getResponseHeader('ETag');
+          for (i=0;i<detail.response.length;i++) {
+            if (detail.response[i].type === "PullRequestEvent") {
+              detail.response[i].pullRequestAction = this.language_data[detail.response[i].payload.action + "PullRequest"];
+            } else if (detail.response[i].type === "CreateEvent") {
+              detail.response[i].createEvent = this.language_data.createEvent[detail.response[i].payload.ref_type];
+            }
+            this.push('events', detail.response[i])
+          };
+          this._changeTime(this.events);
+        }
 
+      },
+      // PARSE TIME
       _changeTime: function(list){
         for (i=0;i<list.length;i++){
           var date = new Date(list[i].created_at);
@@ -697,6 +735,7 @@ Element providing solution to no problem in particular.
 
         }
       },
+
       // GETTERS
       _getBranch: function(ref) {
         refSplited = ref.split("/");
@@ -729,22 +768,23 @@ Element providing solution to no problem in particular.
       },
 
 
-      // Process
+      // PROCESS
       _processUrl: function(component_directory, idioma) {
         return component_directory + "language/" + idioma; 
       },
       _processEventUrl: function(username) {
-        /*return "mockdata.json";*/
         return "https://api.github.com/users/" + username + "/received_events";
       },
       _processEventParams: function(page, per_page) {
-        return {"page": page,"per_page": per_page}
+          return page == 0? {}: {page: page};
       },
+      _processRefreshHeader: function(etag) {
+        this.$.refresh.headers["If-None-Match"] = etag;       
+      },
+      // BOOLEAN FUNCTION
       _showLoadMore: function(lastPage, page, show){
         return lastPage > page && !show;
-      },
-
-
+      },      
       _checkPostType: function(origin, type) {
         return origin === type;
       },

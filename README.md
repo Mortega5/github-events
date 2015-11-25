@@ -12,7 +12,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 | username            | The username on Github that you want to get her events                                                                                      | Required  `<String>`                |
 | token               | The access_token on Github. If you use it, you have more request per hour                                                                   | Optional `<String>`               |
 | component_directory | The component directory where the component is. You must provide it when your component directory is different that your project directory. | Optional `<String>`               |
-| per_page            | The number of events per request.                                                                                                           | Optional Default: 15  `<Integer>` |
+| per_page            | The number of events per request.                                                                                                           | Optional Default: 15  `<Integer>` **(do not support yet)** |
 | language            | The language in which you want to get the posts (only allow `en` (english) and `es` (spanish) at the moment)                                | Optional Default: es `<String>`   |
 
 ## Parser Status
@@ -30,8 +30,8 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 	- [ ] labeled (useless)
 	- [ ] unlabeled (useless)
 - [x] 6.MemberEvent
-- [ ] 7.ReleaseEvent
-- [ ] 8.CommitCommentEvent
+- [X] 7.ReleaseEvent
+- [X] 8.CommitCommentEvent
 - [x] 9.DeleteEvent
 - [ ] 10.GollumEvent
 - [ ] 11.IssueCommentEvent
