@@ -678,7 +678,7 @@ Element providing solution to no problem in particular.
       _refresUpdate: function(newVal) {
         var back = this;
         window.clearInterval();
-        window.setInterval(function(){back.$.request.generateRequest()}, back.refresh_time);
+        window.setInterval(function(){back.$.refresh.generateRequest()}, back.refresh_time);
       },
 
       // MORE BUTTON
