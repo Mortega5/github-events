@@ -3,7 +3,7 @@
 	"title" : "New Events",
 	"loading" : "Loading...",
 	"load_more" : "Show more events",
-	"push" : "Made a push to ",
+	"push" : "Pushed to",
 	"starred" : "Starred repository ",
 	"create" : "Created repository in ",
 	"pull_request" : "Made a request pull over ",
@@ -53,5 +53,6 @@
 		"closed": "Closed issue",
 		"reopened": "Reopened issue"
 	},
-  "releaseEvent": "Creó la release"
+  "releaseEvent": "Creó la release",
+  "commitCommentEvent": "Commented on commit"
 }

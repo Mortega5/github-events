@@ -53,5 +53,6 @@
 		"closed": "Cerró la issue",
 		"reopened": "Reabrió la issue"
 	},
-  "releaseEvent": "Creó la release"
+  "releaseEvent": "Creó la release",
+  "commitCommentEvent": "Comentó en el commit"
 }

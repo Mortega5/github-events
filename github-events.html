@@ -137,6 +137,9 @@ Element providing solution to no problem in particular.
       margin: 5px 28px;
       font-size: 12px;
     }
+    .additionalInfo p{
+      color: #666;
+    }
     .githubIcon {
       margin:auto 0;
     }
@@ -432,7 +435,27 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CommitCommentEvent')]]">
-                  TODO commit comment event
+                  <div class="horizontal layout">
+                    <div class="githubIcon">
+                      <span class="octicon octicon-comment"></span>
+                    </div>
+                    <p class="text">
+                      <span>{{language_data.commitCommentEvent}}</span>
+                      <a href="{{item.payload.comment.html_url}}" target="_blank" class="name">
+                        <span>{{_getCommitHead(item.payload.comment.commit_id)}}</span>
+                      </a>
+                      <span>{{language_data.at}}</span>
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        <span>{{item.repo.name}}</span>
+                      </a>
+                    </p>
+                  </div>
+                  <div class="additionalInfo">
+                    <p>
+                     <iron-icon src="{{item.payload.comment.user.avatar_url}}"></iron-icon>
+                      <span>{{item.payload.comment.body}}</span>
+                    </p>
+                  </div>
                 </template>
 
                 <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
@@ -704,8 +727,8 @@ Element providing solution to no problem in particular.
       _getReleaseUrl: function(repo, tag) {
         return "https://github.com/" + repo + "/releases/tag/" + tag;
       },
-      
-      
+
+
       // Process
       _processUrl: function(component_directory, idioma) {
         return component_directory + "language/" + idioma; 
