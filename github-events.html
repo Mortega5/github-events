@@ -672,14 +672,20 @@ Element providing solution to no problem in particular.
       },
       _refreshResponse: function(e, d) {
         if (d.status === 200){
+          var last_id = this.events[0].id;
           this.etag = d.xhr.getResponseHeader('ETag');
-          for (i=0;i<detail.response.length;i++) {
-            if (detail.response[i].type === "PullRequestEvent") {
-              detail.response[i].pullRequestAction = this.language_data[detail.response[i].payload.action + "PullRequest"];
-            } else if (detail.response[i].type === "CreateEvent") {
-              detail.response[i].createEvent = this.language_data.createEvent[detail.response[i].payload.ref_type];
+          var isNew = true;
+          for (i=0;i<d.response.length && isNew;i++) {
+            if (d.response[i].id == last_id) {
+              isNew = false;
+            } else {
+              if (d.response[i].type === "PullRequestEvent") {
+                d.response[i].pullRequestAction = this.language_data[d.response[i].payload.action + "PullRequest"];
+              } else if (d.response[i].type === "CreateEvent") {
+                d.response[i].createEvent = this.language_data.createEvent[d.response[i].payload.ref_type];
+              }
+              this.push('events', d.response[i])
             }
-            this.push('events', detail.response[i])
           };
           this._changeTime(this.events);
         }
@@ -776,7 +782,7 @@ Element providing solution to no problem in particular.
         return "https://api.github.com/users/" + username + "/received_events";
       },
       _processEventParams: function(page, per_page) {
-          return page == 0? {}: {page: page};
+        return page == 0? {}: {page: page};
       },
       _processRefreshHeader: function(etag) {
         this.$.refresh.headers["If-None-Match"] = etag;       
