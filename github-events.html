@@ -594,8 +594,8 @@ Element providing solution to no problem in particular.
       attached : function() {
         //TODO remove that
         if (this.token) {
-          this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token +'"}');
-          this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token}+ '"}');
+          this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
+          this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
         }
         var back = this;
         window.setInterval(function(){back.$.request.generateRequest();}, back.refresh_time);
