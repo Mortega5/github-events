@@ -12,7 +12,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 | username            | The username on Github that you want to get her events                                                                                      | Required  `<String>`                |
 | token               | The access_token on Github. If you use it, you have more request per hour                                                                   | Optional `<String>`               |
 | component_directory | The component directory where the component is. You must provide it when your component directory is different that your project directory. | Optional `<String>`               |
-| refresh_time            | how often the component refresh data (milliseconds)                                                                                                           | Optional Default: 6000  `<Integer>`  |
+| refresh_time            | how often the component refresh data (milliseconds)                                                                                                           | Optional Default: 60000  `<Integer>`  |
 | language            | The language in which you want to get the posts (only allow `en` (english) and `es` (spanish) at the moment)                                | Optional Default: es `<String>`   |
 
 ## Parser Status
