@@ -376,6 +376,7 @@ Element providing solution to no problem in particular.
                   </template>
                 </template>
 
+                <!-- DELETE EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'DeleteEvent')]]">
                   <div class="horizontal layout">
                     <div class="githubIcon"><span class="octicon octicon-trashcan"></span>
@@ -391,6 +392,7 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
+                <!-- MEMBER EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'MemberEvent')]]">
                   <div class="horizontal layout">
                     <div class="githubIcon">
@@ -410,16 +412,16 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
+                <!-- RELEASE EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'ReleaseEvent')]]">
                   <div class="horizontal layout">
                     <div class="githubIcon">
-                      <span class="octicon octicon-person"></span>
-
+                      <span class="octicon octicon-tag"></span>
                     </div>
                     <p class="text">
-                      <span>{{language_data.member}}</span>
-                      <a href="{{_getUrlWithGithub(item.payload.member.login)}}" target="_blank" class="name">
-                        <span>{{item.payload.member.login}}</span>
+                      <span>{{language_data.releaseEvent}}</span>
+                      <a href="{{_getReleaseUrl(item.repo.name, item.payload.release.tag_name)}}" target="_blank" class="name">
+                        <span>{{item.payload.release.name}}</span>
                       </a>
                       <span>{{language_data.at}}</span>
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
@@ -699,6 +701,11 @@ Element providing solution to no problem in particular.
       _getIssueUrl: function(repo, number) {
         return "https://github.com/" + repo + "/issues/" + number;
       },
+      _getReleaseUrl: function(repo, tag) {
+        return "https://github.com/" + repo + "/releases/tag/" + tag;
+      },
+      
+      
       // Process
       _processUrl: function(component_directory, idioma) {
         return component_directory + "language/" + idioma; 
