@@ -175,6 +175,7 @@ Element providing solution to no problem in particular.
                url="{{events_url}}"
                handleAs="json"
                on-response="_refreshResponse"
+               on-error="_refreshResponse"
                >
     </iron-ajax>
     <iron-ajax
@@ -684,12 +685,11 @@ Element providing solution to no problem in particular.
               } else if (d.response[i].type === "CreateEvent") {
                 d.response[i].createEvent = this.language_data.createEvent[d.response[i].payload.ref_type];
               }
-              this.push('events', d.response[i])
+              this.unshift('events', d.response[i])
             }
           };
-          this._changeTime(this.events);
         }
-
+        this._changeTime(this.events);
       },
       // PARSE TIME
       _changeTime: function(list){
