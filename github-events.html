@@ -167,6 +167,7 @@ Element providing solution to no problem in particular.
                params="{{events_params}}"
                handleAs="json"
                on-response="_response"
+               on-request="waitCursor"
                >
     </iron-ajax>
     <iron-ajax
@@ -176,6 +177,7 @@ Element providing solution to no problem in particular.
                handleAs="json"
                on-response="_refreshResponse"
                on-error="_refreshResponse"
+               on-request="waitCursor"
                >
     </iron-ajax>
     <iron-ajax
@@ -184,9 +186,10 @@ Element providing solution to no problem in particular.
                method="GET"
                handleAs='json'
                on-response="_language_response"
+               on-request="waitCursor"
                >
     </iron-ajax>
-    <paper-header-panel id="header" mode="waterfall" class="blue">
+    <paper-header-panel id="panelHeader" mode="waterfall" class="blue">
       <div class="paper-header horizontal layout center-justified">
         <div><iron-icon src="picture.png"></iron-icon></div>
         <div class="flex" style="text-align:center"><span class="title">GitHub Events</span></div>
@@ -578,6 +581,13 @@ Element providing solution to no problem in particular.
           type: String,
           notify: true,
           observer: '_processRefreshHeader'
+        },
+        refresh_time: {
+          type: Number,
+          value: 6000,
+          reflectToAttribute: true,
+          notify: true,
+          observer: '_refresUpdate'
         }
       },
 
@@ -588,11 +598,15 @@ Element providing solution to no problem in particular.
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'9"}');
           this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token+'9"}');
         }
+        var back = this;
+        window.setInterval(function(){back.$.request.generateRequest();}, back.refresh_time);
+
         this.$.requestLanguage.generateRequest();
       },
 
       // AJAX RESPONSE
       _response: function(event,detail){
+        this.$.panelHeader.style.cursor = "default";
         if (this.events.length > 0) {
           for (i=0;i<detail.response.length;i++) {
             if (detail.response[i].type === "PullRequestEvent") {
@@ -633,6 +647,7 @@ Element providing solution to no problem in particular.
       },
 
       _language_response: function(event, detail){
+        this.$.panelHeader.style.cursor = "default";
         this.language_data = detail.response;
         if(this.events.length === 0){
           this.$.request.generateRequest();
@@ -660,6 +675,11 @@ Element providing solution to no problem in particular.
           this.$.requestLanguage.generateRequest();
         }
       },
+      _refresUpdate: function(newVal) {
+        var back = this;
+        window.clearInterval();
+        window.setInterval(function(){back.$.request.generateRequest()}, back.refresh_time);
+      },
 
       // MORE BUTTON
       load: function(){
@@ -672,6 +692,7 @@ Element providing solution to no problem in particular.
         this.$.refresh.generateRequest();
       },
       _refreshResponse: function(e, d) {
+        this.$.panelHeader.style.cursor = "default";
         if (d.status === 200){
           var last_id = this.events[0].id;
           this.etag = d.xhr.getResponseHeader('ETag');
@@ -787,6 +808,8 @@ Element providing solution to no problem in particular.
       _processRefreshHeader: function(etag) {
         this.$.refresh.headers["If-None-Match"] = etag;       
       },
+
+
       // BOOLEAN FUNCTION
       _showLoadMore: function(lastPage, page, show){
         return lastPage > page && !show;
@@ -796,6 +819,9 @@ Element providing solution to no problem in particular.
       },
       _noEvents: function(events) {
         return events == 0;
+      },
+      waitCursor: function(){
+        this.$.panelHeader.style.cursor = "wait";
       }
 
     });
