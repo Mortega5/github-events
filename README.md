@@ -25,6 +25,10 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
   - [x] opened
   - [x] closed
   - [x] reopened
+  - [ ] assigned (useless)
+	- [ ] unassigned (useless)
+	- [ ] labeled (useless)
+	- [ ] unlabeled (useless)
 - [x] 6.MemberEvent
 - [ ] 7.ReleaseEvent
 - [ ] 8.CommitCommentEvent
@@ -34,21 +38,14 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [ ] 12.PublicEvent
 - [ ] 13.PullRequestReviewCommentEvent
 - [ ] 14.ForkEvent
-
-#### NEXT VERSION
- - [ ] 5. IssuesEvent
-	 - [ ] assigned
-	 - [ ] unassigned
-	 - [ ] labeled
-	 - [ ] unlabeled
- - [ ] 15.TeamAddEvent
- - [ ] 16.StatusEvent
- - [ ] 17.RepositoryEvent
- - [ ] 18.PageBuildEvent
- - [ ] 19.MembershipEvent
- - [ ] 20.GistEvent
- - [ ] 21.ForkApplyEvent
- - [ ] 22.FollowEvent
- - [ ] 23.DownloadEvent
- - [ ] 24.DeploymentStatusEvent
- - [ ] 25.DeploymentEvent
+- [ ] 15.TeamAddEvent
+- [ ] 16.StatusEvent
+- [ ] 17.RepositoryEvent
+- [ ] 18.PageBuildEvent
+- [ ] 19.MembershipEvent
+- [ ] 20.GistEvent
+- [ ] 21.ForkApplyEvent
+- [ ] 22.FollowEvent
+- [ ] 23.DownloadEvent
+- [ ] 24.DeploymentStatusEvent
+- [ ] 25.DeploymentEvent

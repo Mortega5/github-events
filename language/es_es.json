@@ -52,5 +52,6 @@
 		"labeled": "Etiquetó la issue",
 		"closed": "Cerró la issue",
 		"reopened": "Reabrió la issue"
-	}
+	},
+  "releaseEvent": "Reeased"
 }

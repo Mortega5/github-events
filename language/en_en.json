@@ -52,5 +52,6 @@
 		"labeled": "Labeled issue",
 		"closed": "Closed issue",
 		"reopened": "Reopened issue"
-	}
+	},
+  "releaseEvent": "Creó la release"
 }
