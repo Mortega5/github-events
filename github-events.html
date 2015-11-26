@@ -587,7 +587,7 @@ limitations under the License.
           this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
         }
         var back = this;
-        window.setInterval(function(){back.$.request.generateRequest();}, back.refresh_time);
+        window.setInterval(function(){back.$.refresh.generateRequest();}, back.refresh_time);
 
         this.$.requestLanguage.generateRequest();
       },
