@@ -308,7 +308,8 @@ Element providing solution to no problem in particular.
                     <p style="margin:0px">{{item.payload.pull_request.title}}</p>
                   </div>
                 </template>
-                <!-- ISSUES EVENTS -->
+              
+                  <!-- ISSUES EVENTS -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
                   <template is="dom-if" if="[[_checkPostType(item.payload.action, 'opened')]]">
                     <div class="horizontal layout">
@@ -485,6 +486,7 @@ Element providing solution to no problem in particular.
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestReviewCommentEvent')]]">
                   TODO pull request review event
                 </template>
+                
                 <template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
                   TODO pull request fork event
                 </template>
@@ -731,9 +733,11 @@ Element providing solution to no problem in particular.
               if( (current_date.getMinutes() - date.getMinutes()) == 0 ){
 
                 time = current_date.getSeconds() - date.getSeconds()+" "+this.language_data.seconds
+                time += time == 1? " " + this.language_data.second: " "+this.language_data.seconds
               }
               else{
-                time = current_date.getMinutes() - date.getMinutes()+" "+this.language_data.minutes
+                time = current_date.getMinutes() - date.getMinutes();
+                time += time == 1? " " + this.language_data.minute:  " "+this.language_data.minutes
               }
             }
             else{
