@@ -58,5 +58,6 @@
   "releaseEvent": "Creó la release",
   "commitCommentEvent": "Commented on commit",
   "fork": "Forked",
-  "errorMessage": "We have troubles with Github, Sorry. Try it later"
+  "errorMessage": "We have troubles with Github, Sorry. Try it later",
+  "issueComment": "Commented on issue"
 }

@@ -153,7 +153,6 @@ Element providing solution to no problem in particular.
     }
     .text{
       margin: 3px 0px 3px 8px;
-      word-break: break-all
     }
     .loading {
       margin:auto;
@@ -221,7 +220,7 @@ Element providing solution to no problem in particular.
       </div>
       <!-- CONTENT INFO-->
       <div class="content vertical layout">
-       <!-- Modal troubles -->
+        <!-- Modal troubles -->
         <div id="toast1" class="modalError flex horizontal center-justified layout">
           <div><p>{{language_data.errorMessage}}</p></div>
         </div>
@@ -496,13 +495,24 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
-
-                <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
-                  TODO gollum event
-                </template>
-
+                <!-- ISSUE COMMENT EVENT-->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'IssueCommentEvent')]]">
-                  TODO issue comment event
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-comment-discussion githubIcon"></p>
+                    <p class="text">
+                      {{language_data.issueComment}}
+                      <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                        #{{item.payload.issue.number}}
+                      </a>
+                      {{language_data.at}}
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repo.name}}
+                      </a>
+                    </p>
+                  </div>
+                  <div class="additionalInfo">
+                    <p>{{item.payload.comment.body}}</p>
+                  </div>
                 </template>
 
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PublicEvent')]]">
@@ -513,7 +523,9 @@ Element providing solution to no problem in particular.
                   TODO pull request review event
                 </template>
 
-
+                <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
+                  TODO gollum event
+                </template>
 
 
               </div>
@@ -618,7 +630,7 @@ Element providing solution to no problem in particular.
       },
 
       attached : function() {
-        //TODO remove that
+
         this.requestError = false;
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');

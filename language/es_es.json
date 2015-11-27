@@ -58,5 +58,6 @@
   "releaseEvent": "Creó la release",
   "commitCommentEvent": "Comentó en el commit",
   "fork": "Realizó un fork de",
-  "errorMessage": "Estamos teniendo problemas con Github."
+  "errorMessage": "Estamos teniendo problemas con Github",
+  "issueComment": "Comentó en la issue"
 }
