@@ -63,5 +63,9 @@
   "gollum": {
     "created": "Creó la página",
     "updated": "Actualizó la página"
+  },
+  "pullRequestReview": {
+    "commend":"comentó el fichero",
+    "pullRequest": "en la Pull Request"
   }
 }

@@ -314,7 +314,7 @@ Element providing solution to no problem in particular.
                     <p class="octicon octicon-git-pull-request githubIcon"></p>
                     <p class="text">
                       {{item.pullRequestAction}}
-                      <a href="{{_getPullRequestUrl(item.repo.name, item.payload.number)}}" target="_blank">
+                      <a href="{{item.payload.pull_request.html_url}}" target="_blank">
                         #{{item.payload.number}}
                       </a>
                       {{language_data.at}}
@@ -518,11 +518,38 @@ Element providing solution to no problem in particular.
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PublicEvent')]]">
                   TODO public event
                 </template>
-
+                
+                <!-- PULL REQUEST REVIEW COMMENT-->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestReviewCommentEvent')]]">
-                  TODO pull request review event
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-comment githubIcon"></p>
+                    <p class="text">
+                      <a href="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="name flex">
+                        {{item.payload.comment.user.login}}
+                      </a>
+                      {{language_data.pullRequestReview.commend}}
+                      <a href="{{item.payload.comment.html_url}}" target="_blank">
+                        {{item.payload.comment.path}}
+                      </a>
+                      {{language_data.pullRequestReview.pullRequest}}
+                      <a href="{{item.payload.pull_request.html_url}}" target="_blank">
+                        #{{item.payload.pull_request.number}}
+                      </a>
+                      {{language_data.at}}
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repo.name}}
+                      </a>
+                    </p>
+                  </div>
+                  <div class="additionalInfo">
+                    <p>
+                      <iron-icon src="{{item.payload.comment.user.avatar_url}}"></iron-icon>
+                      {{item.payload.comment.body}}
+                    </p>
+                  </div>
                 </template>
 
+                <!-- GOLLUM EVENT-->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-comment-discussion githubIcon"></p>
@@ -600,7 +627,7 @@ Element providing solution to no problem in particular.
         },
         page: {
           type: Number,
-          value: 0,
+          value: 1,
           notify: true
         },
         language: {
@@ -650,6 +677,7 @@ Element providing solution to no problem in particular.
       },
 
       attached : function() {
+        this.token =  "c7c989209aecb2c83cb7bf24bb7e2118cd50b321";
         this.requestError = false;
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
@@ -848,9 +876,6 @@ Element providing solution to no problem in particular.
       _getCommitInfo: function(name, commit) {
         return "https://github.com/" + name + "/commit/" + commit;
       },
-      _getPullRequestUrl: function(repo, pullRequesId) {
-        return "https://github.com/" + repo + "/pull/" + pullRequesId;
-      },
       _getIssueUrl: function(repo, number) {
         return "https://github.com/" + repo + "/issues/" + number;
       },
@@ -867,7 +892,7 @@ Element providing solution to no problem in particular.
         return "https://api.github.com/users/" + username + "/received_events";
       },
       _processEventParams: function(page, per_page) {
-        return page == 0? {}: {page: page};
+        return page < 1? {}: {page: page};
       },
       _processRefreshHeader: function(etag) {
         this.$.refresh.headers["If-None-Match"] = etag;       
