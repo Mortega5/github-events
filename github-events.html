@@ -82,6 +82,8 @@ Element providing solution to no problem in particular.
     .title {
       font-weight: bold;
       font-size: 1.3em;
+      margin:0;
+      text-align: center;
     }
     .event {
       min-height: 100px;
@@ -139,9 +141,11 @@ Element providing solution to no problem in particular.
     }
     .additionalInfo p{
       color: #666;
+      margin:0;
     }
     .githubIcon {
       margin:auto 0;
+      text-align: center;
     }
     .watchevent .starIcon iron-icon{
       width: 18px;
@@ -168,6 +172,7 @@ Element providing solution to no problem in particular.
                handleAs="json"
                on-response="_response"
                on-request="waitCursor"
+               on-error="requestError"
                >
     </iron-ajax>
     <iron-ajax
@@ -192,7 +197,7 @@ Element providing solution to no problem in particular.
     <paper-header-panel id="panelHeader" mode="waterfall" class="blue">
       <div class="paper-header horizontal layout center-justified">
         <div><iron-icon src="picture.png"></iron-icon></div>
-        <div class="flex" style="text-align:center"><span class="title">GitHub Events</span></div>
+        <p class="title flex">GitHub Events</p>
         <div><paper-icon-button icon="refresh" on-click="refresh"></paper-icon-button></div>
       </div>
       <div class="content">
@@ -202,10 +207,10 @@ Element providing solution to no problem in particular.
               <!-- HEADER user and time information -->
               <div class="header horizontal layout">
                 <iron-icon src="{{item.actor.avatar_url}}" class="imgEvent"></iron-icon>
-                <div class="flex"><a href="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="name">
+                <a href="{{_getUrlWithGithub(item.actor.login)}}" target="_blank" class="name flex">
                   {{item.actor.login}}
-                  </a>
-                </div>
+                </a>
+
                 <span class="date">{{item.date}}</span>
               </div>
 
@@ -215,18 +220,16 @@ Element providing solution to no problem in particular.
                 <!-- PUSH EVENT -->
                 <template is="dom-if" if="{{_checkPostType(item.type, 'PushEvent')}}">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <span class="octicon octicon-git-commit"></span>
-                    </div>
+                    <p class="octicon octicon-git-commit githubIcon"></p>
                     <div>
                       <p class="text">
-                        <span>{{language_data.push}}</span>
+                        {{language_data.push}}
                         <a href="{{_getBranchUrl(item.repo.name, item.payload.ref)}}" target="_blank">
-                          <span>{{_getBranch(item.payload.ref)}}</span>
+                          {{_getBranch(item.payload.ref)}}
                         </a>
-                        <span>{{language_data.at}}</span>
+                        {{language_data.at}}
                         <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                          <span>{{item.repo.name}}</span>
+                          {{item.repo.name}}
                         </a>
                       </p>
                     </div>
@@ -234,22 +237,21 @@ Element providing solution to no problem in particular.
                   <div class="additionalInfo">
                     <p>
                       <a href="{{_getCommitInfo(item.repo.name, item.payload.head)}}" target="_blank">
-                        <span>{{_getCommitHead(item.payload.head)}}</span>
+                        {{_getCommitHead(item.payload.head)}}
                       </a>
-                      <span> {{_getCommitMessage(item.payload.commits, 0)}}</span>
+                      {{_getCommitMessage(item.payload.commits, 0)}}
                     </p>
                   </div>
                 </template>
 
                 <!-- WATCH EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'WatchEvent')]]">
-                  <div class="horizontal layout watchevent">
-                    <div class="githubIcon"><span class="octicon octicon-star"></span>
-                    </div>
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-star githubIcon"></p>
                     <p class="text">
-                      <span>{{language_data.starred}}</span>
+                      {{language_data.starred}}
                       <a href="{{_getUrlWithGithub(item.repo.name)}}" target="_blank">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
@@ -258,27 +260,25 @@ Element providing solution to no problem in particular.
                 <!-- CREATE EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'branch')]]">
-                        <span class="octicon octicon-git-branch"></span>
-                      </template>
-                      <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'tag')]]">
-                        <span class="octicon octicon-tag"></span>
-                      </template>
-                      <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'repository')]]">
-                        <span class="octicon octicon-git-branch"></span>
-                      </template>
-                    </div>
+                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'branch')]]">
+                      <p class="octicon octicon-git-branch githubIcon"></p>
+                    </template>
+                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'tag')]]">
+                      <p class="octicon octicon-tag githubIcon"></p>
+                    </template>
+                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'repository')]]">
+                      <p class="octicon octicon-git-branch githubIcon"></p>
+                    </template>
                     <p class="text">
-                      <span>{{item.createEvent}}</span>
+                      {{item.createEvent}}
                       <template is="dom-if" if="{{item.payload.ref}}">
                         <a href="{{_getBranchUrl(item.repo.name, item.payload.ref)}}" target="_blank">
-                          <span>{{item.payload.ref}}</span>
+                          {{item.payload.ref}}
                         </a>
                       </template>
-                      <span>{{language_data.at}}</span>
+                      {{language_data.at}}
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
@@ -287,50 +287,41 @@ Element providing solution to no problem in particular.
                 <!-- PULL REQUEST EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <span class="octicon octicon-git-pull-request">
-                      </span>
-                    </div>
-                    <div>
-                      <p class="text">
-                        <span>{{item.pullRequestAction}}</span>
-                        <a href="{{_getPullRequestUrl(item.repo.name, item.payload.number)}}" target="_blank">
-                          <span>#{{item.payload.number}}</span>
-                        </a>
-                        <span>{{language_data.at}}</span>
-                        <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                          <span>{{item.repo.name}}</span>
-                        </a>
-                      </p>
-                    </div>
+                    <p class="octicon octicon-git-pull-request githubIcon"></p>
+                    <p class="text">
+                      {{item.pullRequestAction}}
+                      <a href="{{_getPullRequestUrl(item.repo.name, item.payload.number)}}" target="_blank">
+                        #{{item.payload.number}}
+                      </a>
+                      {{language_data.at}}
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repo.name}}
+                      </a>
+                    </p>
                   </div>
                   <div class="additionalInfo">
-                    <p style="margin:0px">{{item.payload.pull_request.title}}</p>
+                    <p>{{item.payload.pull_request.title}}</p>
                   </div>
                 </template>
-              
-                  <!-- ISSUES EVENTS -->
+
+                <!-- ISSUES EVENTS -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
                   <template is="dom-if" if="[[_checkPostType(item.payload.action, 'opened')]]">
                     <div class="horizontal layout">
-                      <div class="githubIcon">
-                        <span class="octicon octicon-issue-opened"></span>
-                      </div>
-                      <div>
-                        <p class="text">
-                          <span>{{language_data.issuesEvent.opened}}</span>
-                          <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
-                            <span>#{{item.payload.issue.number}}</span>
-                          </a>
-                          <span> {{language_data.at}}</span>
-                          <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                            <span>{{item.repo.name}}</span>
-                          </a>
-                        </p>
-                      </div>
+                      <p class="octicon octicon-issue-opened githubIcon"></p>
+                      <p class="text">
+                        {{language_data.issuesEvent.opened}}
+                        <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                          #{{item.payload.issue.number}}
+                        </a>
+                        {{language_data.at}}
+                        <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                          {{item.repo.name}}
+                        </a>
+                      </p>
                     </div>
                     <div class="additionalInfo">
-                      <p style="margin:0px">{{item.payload.issue.title}}</p>
+                      <p>{{item.payload.issue.title}}</p>
                     </div>
                   </template>
                   <template is="dom-if" if="[[_checkPostType(item.payload.action, 'closed')]]">
@@ -394,14 +385,13 @@ Element providing solution to no problem in particular.
                 <!-- DELETE EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'DeleteEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon"><span class="octicon octicon-trashcan"></span>
-                    </div>
+                    <p class="octicon octicon-trashcan githubIcon"></p>
                     <p class="text">
-                      <span>{{language_data.delete}}</span>
+                      {{language_data.delete}}
                       <span class="deletedBranch">{{_getBranch(item.payload.ref)}}</span>
-                      <span>{{language_data.at}}</span>
+                      {{language_data.at}}
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
@@ -410,18 +400,15 @@ Element providing solution to no problem in particular.
                 <!-- MEMBER EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'MemberEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <span class="octicon octicon-person"></span>
-
-                    </div>
+                    <p class="octicon octicon-person githubIcon"></p>
                     <p class="text">
-                      <span>{{language_data.member}}</span>
+                      {{language_data.member}}
                       <a href="{{_getUrlWithGithub(item.payload.member.login)}}" target="_blank" class="name">
-                        <span>{{item.payload.member.login}}</span>
+                        {{item.payload.member.login}}
                       </a>
-                      <span>{{language_data.at}}</span>
+                      {{language_data.at}}
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
@@ -430,17 +417,15 @@ Element providing solution to no problem in particular.
                 <!-- RELEASE EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'ReleaseEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <span class="octicon octicon-tag"></span>
-                    </div>
+                    <p class="octicon octicon-tag githubIcon"></p>
                     <p class="text">
-                      <span>{{language_data.releaseEvent}}</span>
+                      {{language_data.releaseEvent}}
                       <a href="{{_getReleaseUrl(item.repo.name, item.payload.release.tag_name)}}" target="_blank" class="name">
-                        <span>{{item.payload.release.name}}</span>
+                        {{item.payload.release.name}}
                       </a>
-                      <span>{{language_data.at}}</span>
+                      {{language_data.at}}
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
@@ -449,27 +434,43 @@ Element providing solution to no problem in particular.
                 <!-- COMMIT COMMENT EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'CommitCommentEvent')]]">
                   <div class="horizontal layout">
-                    <div class="githubIcon">
-                      <span class="octicon octicon-comment"></span>
-                    </div>
+                    <p class="octicon octicon-comment githubIcon"></p>
                     <p class="text">
-                      <span>{{language_data.commitCommentEvent}}</span>
+                      {{language_data.commitCommentEvent}}
                       <a href="{{item.payload.comment.html_url}}" target="_blank" class="name">
-                        <span>{{_getCommitHead(item.payload.comment.commit_id)}}</span>
+                        {{_getCommitHead(item.payload.comment.commit_id)}}
                       </a>
-                      <span>{{language_data.at}}</span>
+                      {{language_data.at}}
                       <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
-                        <span>{{item.repo.name}}</span>
+                        {{item.repo.name}}
                       </a>
                     </p>
                   </div>
                   <div class="additionalInfo">
                     <p>
                       <iron-icon src="{{item.payload.comment.user.avatar_url}}"></iron-icon>
-                      <span>{{item.payload.comment.body}}</span>
+                      {{item.payload.comment.body}}
                     </p>
                   </div>
                 </template>
+
+
+                <template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-git-branch githubIcon"></p>
+                    <p class="text">
+                      {{language_data.fork}}
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repo.name}}
+                      </a>
+                      {{language_data.to}}
+                      <a target="_blank" href="{{item.payload.forkee.html_url}}">
+                        {{item.payload.forkee.full_name}}
+                      </a>
+                    </p>
+                  </div>
+                </template>
+
 
                 <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
                   TODO gollum event
@@ -486,10 +487,8 @@ Element providing solution to no problem in particular.
                 <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestReviewCommentEvent')]]">
                   TODO pull request review event
                 </template>
-                
-                <template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
-                  TODO pull request fork event
-                </template>
+
+
 
 
               </div>
@@ -662,6 +661,10 @@ Element providing solution to no problem in particular.
             }
           }
         }
+      },
+
+      requestError: function(e,d){
+        //TODO modal en top que indique que hubo problemas
       },
       // OBSERVERS
       _languageChanged: function(newVal){

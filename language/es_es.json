@@ -56,5 +56,6 @@
 		"reopened": "Reabrió la issue"
 	},
   "releaseEvent": "Creó la release",
-  "commitCommentEvent": "Comentó en el commit"
+  "commitCommentEvent": "Comentó en el commit",
+  "fork": "Realizó un fork de"
 }
