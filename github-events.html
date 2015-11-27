@@ -242,7 +242,7 @@ Element providing solution to no problem in particular.
               <div class="content">
 
                 <!-- PUSH EVENT -->
-                <template is="dom-if" if="{{_checkPostType(item.type, 'PushEvent')}}">
+                <template is="dom-if" if="{{compareString(item.type, 'PushEvent')}}">
                   <div class="horizontal layout">
                     <p class="octicon octicon-git-commit githubIcon"></p>
                     <div>
@@ -263,13 +263,13 @@ Element providing solution to no problem in particular.
                       <a href="{{_getCommitInfo(item.repo.name, item.payload.head)}}" target="_blank">
                         {{_getCommitHead(item.payload.head)}}
                       </a>
-                      {{_getCommitMessage(item.payload.commits, 0)}}
+                      {{_getCommitMessage(item.payload.commits)}}
                     </p>
                   </div>
                 </template>
 
                 <!-- WATCH EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'WatchEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'WatchEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-star githubIcon"></p>
                     <p class="text">
@@ -282,15 +282,15 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- CREATE EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'CreateEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'CreateEvent')]]">
                   <div class="horizontal layout">
-                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'branch')]]">
+                    <template is="dom-if" if="[[compareString(item.payload.ref_type, 'branch')]]">
                       <p class="octicon octicon-git-branch githubIcon"></p>
                     </template>
-                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'tag')]]">
+                    <template is="dom-if" if="[[compareString(item.payload.ref_type, 'tag')]]">
                       <p class="octicon octicon-tag githubIcon"></p>
                     </template>
-                    <template is="dom-if" if="[[_checkPostType(item.payload.ref_type, 'repository')]]">
+                    <template is="dom-if" if="[[compareString(item.payload.ref_type, 'repository')]]">
                       <p class="octicon octicon-git-branch githubIcon"></p>
                     </template>
                     <p class="text">
@@ -309,7 +309,7 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- PULL REQUEST EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'PullRequestEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-git-pull-request githubIcon"></p>
                     <p class="text">
@@ -329,13 +329,13 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- ISSUES EVENTS -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'IssuesEvent')]]">
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'opened')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'IssuesEvent')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'opened')]]">
                     <div class="horizontal layout">
                       <p class="octicon octicon-issue-opened githubIcon"></p>
                       <p class="text">
                         {{language_data.issuesEvent.opened}}
-                        <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                        <a href="{{item.payload.issue.html_url}}" target="_blank">
                           #{{item.payload.issue.number}}
                         </a>
                         {{language_data.at}}
@@ -348,7 +348,7 @@ Element providing solution to no problem in particular.
                       <p>{{item.payload.issue.title}}</p>
                     </div>
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'closed')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'closed')]]">
                     <div class="horizontal layout">
                       <div class="githubIcon">
                         <span class="octicon octicon-issue-closed"></span>
@@ -356,7 +356,7 @@ Element providing solution to no problem in particular.
                       <div>
                         <p class="text">
                           <span>{{language_data.issuesEvent.closed}}</span>
-                          <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                          <a href="{{item.payload.issue.html_url}}" target="_blank">
                             <span>#{{item.payload.issue.number}}</span>
                           </a>
                           <span> {{language_data.at}}</span>
@@ -370,19 +370,19 @@ Element providing solution to no problem in particular.
                       <p style="margin:0px">{{item.payload.issue.title}}</p>
                     </div>
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'assigned')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'assigned')]]">
                     Not yet implemented assigned
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'unassigned')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'unassigned')]]">
                     Not yet implemented unassigned
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'labeled')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'labeled')]]">
                     Not yet implemented labeled
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'unlabeled')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'unlabeled')]]">
                     Not yet implemented unlabeled
                   </template>
-                  <template is="dom-if" if="[[_checkPostType(item.payload.action, 'reopened')]]">
+                  <template is="dom-if" if="[[compareString(item.payload.action, 'reopened')]]">
                     <div class="horizontal layout">
                       <div class="githubIcon">
                         <span class="octicon octicon-issue-reopened"></span>
@@ -390,7 +390,7 @@ Element providing solution to no problem in particular.
                       <div>
                         <p class="text">
                           <span>{{language_data.issuesEvent.reopened}}</span>
-                          <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                          <a href="{{item.payload.issue.html_url}}" target="_blank">
                             <span>#{{item.payload.issue.number}}</span>
                           </a>
                           <span> {{language_data.at}}</span>
@@ -407,7 +407,7 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- DELETE EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'DeleteEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'DeleteEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-trashcan githubIcon"></p>
                     <p class="text">
@@ -422,7 +422,7 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- MEMBER EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'MemberEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'MemberEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-person githubIcon"></p>
                     <p class="text">
@@ -439,12 +439,12 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- RELEASE EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'ReleaseEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'ReleaseEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-tag githubIcon"></p>
                     <p class="text">
                       {{language_data.releaseEvent}}
-                      <a href="{{_getReleaseUrl(item.repo.name, item.payload.release.tag_name)}}" target="_blank" class="name">
+                      <a href="{{item.payload.release.html_url}}" target="_blank" class="name">
                         {{item.payload.release.name}}
                       </a>
                       {{language_data.at}}
@@ -456,7 +456,7 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- COMMIT COMMENT EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'CommitCommentEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'CommitCommentEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-comment githubIcon"></p>
                     <p class="text">
@@ -479,7 +479,7 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- FORK EVENT -->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'ForkEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-git-branch githubIcon"></p>
                     <p class="text">
@@ -496,12 +496,12 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- ISSUE COMMENT EVENT-->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'IssueCommentEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'IssueCommentEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-comment-discussion githubIcon"></p>
                     <p class="text">
                       {{language_data.issueComment}}
-                      <a href="{{_getIssueUrl(item.repo.name, item.payload.issue.number)}}" target="_blank">
+                      <a href="{{item.payload.issue.html_url}}" target="_blank">
                         #{{item.payload.issue.number}}
                       </a>
                       {{language_data.at}}
@@ -515,12 +515,12 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
-                <template is="dom-if" if="[[_checkPostType(item.type, 'PublicEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'PublicEvent')]]">
                   TODO public event
                 </template>
-                
+
                 <!-- PULL REQUEST REVIEW COMMENT-->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'PullRequestReviewCommentEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'PullRequestReviewCommentEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-comment githubIcon"></p>
                     <p class="text">
@@ -550,14 +550,14 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <!-- GOLLUM EVENT-->
-                <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
+                <template is="dom-if" if="[[compareString(item.type, 'GollumEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-comment-discussion githubIcon"></p>
                     <p class="text">
-                      <template is="dom-if" if="[[_checkPostType(item.payload.pages.action, 'created')]]">
+                      <template is="dom-if" if="[[compareString(item.payload.pages.action, 'created')]]">
                         {{language_data.gollumEvent.created}}
                       </template>
-                      <template is="dom-if" if="[[_checkPostType(item.payload.pages.action, 'update')]]">
+                      <template is="dom-if" if="[[compareString(item.payload.pages.action, 'update')]]">
                         {{language_data.gollumEvent.created}}
                       </template>
                       <a href="{{item.payload.pages.html_url}}" target="_blank">
@@ -677,7 +677,6 @@ Element providing solution to no problem in particular.
       },
 
       attached : function() {
-        this.token =  "c7c989209aecb2c83cb7bf24bb7e2118cd50b321";
         this.requestError = false;
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
@@ -867,8 +866,8 @@ Element providing solution to no problem in particular.
       _getCommitHead: function(sha) {
         return sha.slice(0, 7);
       },
-      _getCommitMessage: function(commits, position) {
-        return commits[position].message;
+      _getCommitMessage: function(commits) {
+        return commits[commits.length -1].message;
       },
       _getUrlWithGithub: function(path) {
         return "https://github.com/" + path;
@@ -876,13 +875,6 @@ Element providing solution to no problem in particular.
       _getCommitInfo: function(name, commit) {
         return "https://github.com/" + name + "/commit/" + commit;
       },
-      _getIssueUrl: function(repo, number) {
-        return "https://github.com/" + repo + "/issues/" + number;
-      },
-      _getReleaseUrl: function(repo, tag) {
-        return "https://github.com/" + repo + "/releases/tag/" + tag;
-      },
-
 
       // PROCESS
       _processUrl: function(component_directory, idioma) {
@@ -903,7 +895,7 @@ Element providing solution to no problem in particular.
       _showLoadMore: function(lastPage, page, show){
         return lastPage > page && !show;
       },      
-      _checkPostType: function(origin, type) {
+      compareString: function(origin, type) {
         return origin === type;
       },
       _noEvents: function(events) {

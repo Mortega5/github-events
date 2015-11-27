@@ -65,7 +65,7 @@
     "updated": "Updated the page"
   },
   "pullRequestReview": {
-    "commend":"commented a file",
+    "commend":"Commented a file",
     "pullRequest": "in to Pull Request"
   }
 }
