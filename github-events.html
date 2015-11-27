@@ -524,7 +524,27 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <template is="dom-if" if="[[_checkPostType(item.type, 'GollumEvent')]]">
-                  TODO gollum event
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-comment-discussion githubIcon"></p>
+                    <p class="text">
+                      <template is="dom-if" if="[[_checkPostType(item.payload.pages.action, 'created')]]">
+                        {{language_data.gollumEvent.created}}
+                      </template>
+                      <template is="dom-if" if="[[_checkPostType(item.payload.pages.action, 'update')]]">
+                        {{language_data.gollumEvent.created}}
+                      </template>
+                      <a href="{{item.payload.pages.html_url}}" target="_blank">
+                        #{{item.payload.pages.page_name}
+                      </a>
+                      {{language_data.at}}
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repository.name}}
+                      </a>
+                    </p>
+                  </div>
+                  <div class="additionalInfo">
+                    <p>{{item.payload.comment.body}}</p>
+                  </div>
                 </template>
 
 
@@ -630,7 +650,6 @@ Element providing solution to no problem in particular.
       },
 
       attached : function() {
-
         this.requestError = false;
         if (this.token) {
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');

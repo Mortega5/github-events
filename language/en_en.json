@@ -59,5 +59,9 @@
   "commitCommentEvent": "Commented on commit",
   "fork": "Forked",
   "errorMessage": "We have troubles with Github, Sorry. Try it later",
-  "issueComment": "Commented on issue"
+  "issueComment": "Commented on issue",
+  "gollum": {
+    "created": "Creted the page",
+    "updated": "Updated the page"
+  }
 }
