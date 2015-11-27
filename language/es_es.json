@@ -57,5 +57,6 @@
 	},
   "releaseEvent": "Creó la release",
   "commitCommentEvent": "Comentó en el commit",
-  "fork": "Realizó un fork de"
+  "fork": "Realizó un fork de",
+  "errorMessage": "Estamos teniendo problemas con Github."
 }
