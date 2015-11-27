@@ -33,7 +33,7 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [X] 7.ReleaseEvent
 - [X] 8.CommitCommentEvent
 - [x] 9.DeleteEvent
-- [*] 10.GollumEvent
+- [x] 10.GollumEvent*
 - [X] 11.IssueCommentEvent
 - [ ] 12.PublicEvent
 - [ ] 13.PullRequestReviewCommentEvent
