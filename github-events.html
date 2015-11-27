@@ -219,7 +219,9 @@ Element providing solution to no problem in particular.
         <p class="title flex">GitHub Events</p>
         <div><paper-icon-button icon="refresh" on-click="refresh"></paper-icon-button></div>
       </div>
+      <!-- CONTENT INFO-->
       <div class="content vertical layout">
+       <!-- Modal troubles -->
         <div id="toast1" class="modalError flex horizontal center-justified layout">
           <div><p>{{language_data.errorMessage}}</p></div>
         </div>
@@ -477,7 +479,7 @@ Element providing solution to no problem in particular.
                   </div>
                 </template>
 
-
+                <!-- FORK EVENT -->
                 <template is="dom-if" if="[[_checkPostType(item.type, 'ForkEvent')]]">
                   <div class="horizontal layout">
                     <p class="octicon octicon-git-branch githubIcon"></p>
@@ -623,7 +625,7 @@ Element providing solution to no problem in particular.
           this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token+'"}');
         }
         var back = this;
-        window.setInterval(function(){back.$.request.generateRequest();}, back.refresh_time);
+        window.setInterval(function(){back.$.refresh.generateRequest();}, back.refresh_time);
 
         this.$.requestLanguage.generateRequest();
       },
