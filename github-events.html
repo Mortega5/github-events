@@ -516,7 +516,15 @@ Element providing solution to no problem in particular.
                 </template>
 
                 <template is="dom-if" if="[[compareString(item.type, 'PublicEvent')]]">
-                  TODO public event
+                  <div class="horizontal layout">
+                    <p class="octicon octicon-rocket githubIcon"></p>
+                    <p class="text">
+                      <a target="_blank" href="{{_getUrlWithGithub(item.repo.name)}}">
+                        {{item.repo.name}}
+                      </a>
+                      {{language_data.publicEvent}}
+                    </p>
+                  </div>
                 </template>
 
                 <!-- PULL REQUEST REVIEW COMMENT-->
@@ -573,8 +581,6 @@ Element providing solution to no problem in particular.
                     <p>{{item.payload.comment.body}}</p>
                   </div>
                 </template>
-
-
               </div>
             </div>
           </paper-material>						

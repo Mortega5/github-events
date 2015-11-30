@@ -67,5 +67,6 @@
   "pullRequestReview": {
     "commend":"Comentó el fichero",
     "pullRequest": "en la Pull Request"
-  }
+  },
+  "publicEvent": "es open source ahora"
 }
