@@ -18,30 +18,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body unresolved>
 
-    <p>An example of <code>&lt;sof-timeline&gt;</code>:</p>
 
-    <p>Make words! <button id="saybtn">Say Something</button></p>
-    <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
-
-    <sof-timeline author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello sof-timeline</h2>
+    <sof-timeline client_id="6125" key="vobdIY5xeRQVKYZ2cVl9uA((" domain="http://localhost:8080">
     </sof-timeline>
 
     <script>
-      var seedElement = document.querySelector('sof-timeline');
-      
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
-      });
-      
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
-      });
-      
-      document.addEventListener("sof-timeline-lasers", function(e) {
-        console.log(e.detail.sound);
-      });
-      
     </script>
 
   </body>

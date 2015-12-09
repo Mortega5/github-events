@@ -29,9 +29,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       suite('<sof-timeline>', function() {
 
-        test('defines the "author" property', function() {
-          assert.equal(myEl.author.name, 'Dimitri Glazkov');
-          assert.equal(myEl.author.image, 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg');
+        test('defines the client_id and key properties', function() {
+          assert.equal(myEl.client_id, '6125');
+          assert.equal(myEl.key, 'vobdIY5xeRQVKYZ2cVl9uA((');
         });
 
         test('says hello', function() {
