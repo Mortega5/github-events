@@ -12,7 +12,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../paper-styles/paper-styles.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="./iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../paper-material/paper-material.html">
+
 
 <!--
 An element providing a solution to no problem in particular.
@@ -29,7 +31,7 @@ Example:
 <dom-module id="sof-timeline">
 
   <template>
-    <style>
+    <style is="custom-style">
       :host {
         display: block;
         width: var(--google-timeline-width, 450px);
@@ -37,7 +39,7 @@ Example:
         font-family: var(--google-timeline-font-family, Roboto)
       }
       #panel{
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
         background-color: var(--paper-grey-200);
         border-radius: 2px;
       }
@@ -54,16 +56,34 @@ Example:
         margin:auto;
       }
       #panel .content {
-        padding:6px;
+        margin:15px 8px;
+      }
+      #panel .post {
+        padding:6px 8px;
+        background-color:white;        
+      }
+      .status {
+        min-width: 38px;
+        height: 38px;
+        margin:3px;
+        padding: 5px;
+        text-align: center;
+        font-size:10px;
+      }
+      .status p {
+        margin:auto;
+      }
+      .status[answered=true] {
+        background-color: darkgreen;
       }
     </style>
 
     <iron-ajax
-               url="https://api.stackexchange.com/2.2/events"
-               params='{{_requestEventsParam}}'
+               url="https://api.stackexchange.com/2.2/questions"
+               params="{{_requestEventsParams}}"
                handle-as="json"
-               on-response="handleResponse"
-               debounce-duration="300">
+               on-response="_handlerRequestEvent"
+               id="requestEvent">
 
     </iron-ajax>
     <paper-header-panel id="panel" mode="waterfall" class="blue">
@@ -72,9 +92,39 @@ Example:
         <div><paper-icon-button icon="refresh" on-click="refresh"></paper-icon-button></div>
       </div>
       <!-- CONTENT INFO-->
-      <div class="content">
-        <p>Testing</p>
-      </div>
+      <template is="dom-repeat" items="{{events}}">
+        <paper-material elevation=1 class="content">
+          <div class="post horizontal layout">
+            <div class="votes status vertical center-justified layout">
+              <p>{{item.score}}</p>
+              <p>votes</p>
+            </div>
+            <div answered="{{_test(item.is_answered)}}" class="answer status vertical center-justified layout">
+              <p>{{item.answer_count}}</p>
+              <p>answer</p>
+            </div>
+            <div class="views status vertical center-justified layout">
+              <p>{{item.view_count}}</p>
+              <p>views</p>
+            </div>
+            <div class="postInfo vertical layout flex">
+              <div class="title">
+                <span>Title</span>
+              </div>
+              <div class="additionalInfo horizontal layout">
+                <div class="tags flex">
+                  <span>tags</span>
+                  <span>tag2</span>
+                </div>
+                <div class="time">
+                  <span>answered 1 min ago...</span>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </paper-material>
+      </template>
     </paper-header-panel>
   </template>
 
@@ -90,27 +140,30 @@ Example:
     properties: {
 
       /**
-       * `clientId` your clientId on StackOverFlow
+       * `access_token` that permit read information about the user
        */
       access_token: {
         type: String,
         reflectToAttribute: true
       },
       /**
-        * `key` your key on StackOverFlow
+        * `key` is your key on StackOverFlow
         */
       key: {
         type: String,
         reflectToAttribute: true
       },
       /**
-        * `site`
+        * `site` TODO
         */
       site: {
         type:String,
         reflectToAttribute: true
       },
-      _requestEventParams: {
+      /**
+        * `_requestEventsParams` TODO
+        */
+      _requestEventsParams: {
         type: String,
         computed: "_composeRequestParams(access_token, key, site)"
       },
@@ -145,18 +198,57 @@ Example:
     // Element Lifecycle
 
     ready: function() {
-
+      if(this._requestEventsParams){
+        this.$.requestEvent.generateRequest();
+      }
     },
-    _composeRequestParams: function(access_token, key, site) {
-      return {access_token: access_token, key: key, site: site};
-    }
+
+    // Ajax request handler
+
     /**
-     * The `sof-timeline-lasers` event is fired whenever `fireLasers` is called.
+     * The `sof-timeline-eventsReady` event is fired whenever new events are loaded.
      *
-     * @event sof-timeline-lasers
-     * @detail {{sound: String}}
+     * @event sof-timeline-eventsReady
+     * @detail {{sound: String}} 
      */
 
+    /**
+      * TODO
+      *
+      * @param {object} event Object returned by ajax request
+      * @param {object} detail Detail of response returned by ajax request
+      * 
+      */
+    _handlerRequestEvent: function(event, detail){
+      this.fire("sof-timeline-eventsReady", detail);
+      this.events = detail.response.items;
+    },
+
+    _test: function(a){
+      console.log(a);
+      return true;
+    },
+
+
+    /**
+      * TODO Breaf description of `_componseRequestParam`
+      * @param {string} access_token The user access token provide as parameter
+      * @param {string} key SE key provided as parameter 
+      * @param {string} site URL provided as parameter
+      * @return {object} {access_token:"value", key: "value", site: "value"}
+      */
+    _composeRequestParams: function(access_token, key, site) {
+      return {access_token: access_token, key: key, site: site};
+    },
+
+    _decode_utf8: function(str_data) {
+      var matched = str_data.match(/&#([0-9]*);/);
+      while(matched) {
+        str_data = str_data.replace(/&#[\d]*;/, String.fromCharCode(matched[1]))
+        matched = str_data.match(/&#([0-9]*);/);
+      }
+      return str_data;
+    },
     /**
      * Sometimes it's just nice to say hi.
      *

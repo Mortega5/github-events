@@ -22,32 +22,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body>
 
     <!-- You can use the document as a place to set up your fixtures. -->
-    <sof-timeline></sof-timeline>
+    <sof-timeline access_token="vGhq" key="ST3gnYzPvHgsev6QyAfZgQ))" site="stackoverflow"></sof-timeline>
 
     <script>
-      var myEl = document.querySelector('sof-timeline');
+      var element = document.querySelector('sof-timeline');
+      var access_token = 'vGhq';
+      var key = 'ST3gnYzPvHgsev6QyAfZgQ))';
+      var site = 'http://localhost';
 
       suite('<sof-timeline>', function() {
 
-        test('defines the client_id and key properties', function() {
-          assert.equal(myEl.client_id, '6125');
-          assert.equal(myEl.key, 'vobdIY5xeRQVKYZ2cVl9uA((');
+        test('defines the access_token, site and key properties', function() {
+          assert.equal(element.access_token, access_token);
+          assert.equal(element.key, key);
+          assert.equal(element.site, site);
+
         });
 
-        test('says hello', function() {
-          assert.equal(myEl.sayHello(), 'sof-timeline says, Hello World!');
+        test('check iron ajax request params', function() {
+          var params = {access_token: access_token, key: key, site:site}
+          // TESTING PROPERTY 
+          assert.equal(element._requestEventsParams.access_token, params.access_token);
+          assert.equal(element._requestEventsParams.key, params.key);
+          assert.equal(element._requestEventsParams.site, params.site);
 
-          var greetings = myEl.sayHello('greetings Earthlings');
-          assert.equal(greetings, 'sof-timeline says, greetings Earthlings');
+          //TESTING PARAMS VALUES OF IRON AJAX
+          assert.equal(element.$.requestEvent.params.access_token, params.access_token);
+          assert.equal(element.$.requestEvent.params.key, params.key);
+          assert.equal(element.$.requestEvent.params.site, params.site);
         });
 
-        test('fires lasers', function(done) {
-          myEl.addEventListener('sof-timeline-lasers', function(event) {
+        /*        test('fires lasers', function(done) {
+          element.addEventListener('sof-timeline-lasers', function(event) {
             assert.equal(event.detail.sound, 'Pew pew!');
             done();
           });
-          myEl.fireLasers();
-        });
+          element.fireLasers();
+        });*/
 
       });
     </script>
