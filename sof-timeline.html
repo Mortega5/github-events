@@ -34,7 +34,7 @@ Example:
     <style is="custom-style">
       :host {
         display: block;
-        width: var(--google-timeline-width, 650px);
+        width: var(--google-timeline-width, 350px);
         height: var(--google-timeline-height, 400px);
         font-family: var(--google-timeline-font-family, Roboto)
       }
@@ -115,7 +115,7 @@ Example:
       p {
         margin:auto;
       }
-      @media (min-width: 500px){
+      @media screen (max-width: 500px){
         .votes, .views, .time > p > span{
           display: none !important;
         }
