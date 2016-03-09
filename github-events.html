@@ -593,6 +593,8 @@ limitations under the License.
 
       ready : function() {
         if (this.token) {
+          headers = {"Authorization": "token " + this.token,
+            "Timing-Allow-origin": "*"}
           this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
           this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
         }
