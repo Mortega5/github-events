@@ -605,15 +605,16 @@ limitations under the License.
         for (var i=0;i < data.length; i++){
           if(this.probability(this.accuracy_probability)){
             data[i].actor.login = "Usuario";
-            console.log("Elemento " + i + " cambiado");
           }
         }
         return data;
       },
       attached : function() {
         if (this.token) {
-          this.$.request.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
-          this.$.refresh.setAttribute("headers", '{"Authorization":"token '+this.token + '"}');
+           headers = {"Authorization": "token " + this.token,
+        "Timing-Allow-origin": "*"}
+          this.$.request.setAttribute("headers", headers);
+          this.$.refresh.setAttribute("headers", headers);
         }
         var back = this;
         window.setInterval(function(){
