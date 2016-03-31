@@ -33,11 +33,11 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [X] 7.ReleaseEvent
 - [X] 8.CommitCommentEvent
 - [x] 9.DeleteEvent
-- [ ] 10.GollumEvent
-- [ ] 11.IssueCommentEvent
+- [x] 10.GollumEvent*
+- [X] 11.IssueCommentEvent
 - [ ] 12.PublicEvent
 - [ ] 13.PullRequestReviewCommentEvent
-- [ ] 14.ForkEvent
+- [X] 14.ForkEvent
 - [ ] 15.TeamAddEvent
 - [ ] 16.StatusEvent
 - [ ] 17.RepositoryEvent
@@ -49,3 +49,5 @@ It is a [Polymer](https://www.polymer-project.org/1.0/) component that show Gith
 - [ ] 23.DownloadEvent
 - [ ] 24.DeploymentStatusEvent
 - [ ] 25.DeploymentEvent
+
+* No testing yet
