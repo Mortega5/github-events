@@ -56,5 +56,17 @@
 		"reopened": "Reopened issue"
 	},
   "releaseEvent": "Creó la release",
-  "commitCommentEvent": "Commented on commit"
+  "commitCommentEvent": "Commented on commit",
+  "fork": "Forked",
+  "errorMessage": "We have troubles with Github, Sorry. Try it later",
+  "issueComment": "Commented on issue",
+  "gollum": {
+    "created": "Creted the page",
+    "updated": "Updated the page"
+  },
+  "pullRequestReview": {
+    "commend":"Commented a file",
+    "pullRequest": "in to Pull Request"
+  },
+  "publicEvent": "is open source now"
 }
