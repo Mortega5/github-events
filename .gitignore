@@ -7,3 +7,4 @@ test
 .gitattributes
 .editorconfig
 mockdata.json
+token.json
